@@ -1,6 +1,7 @@
 import React, {useState} from "react";
 import {View,TextInput, Text, ScrollView, TouchableOpacity, Alert} from 'react-native'
 import CuidadorController from "../../../controller/CuidadorController";
+import Titulo from '../Titulo'
 import styles from './style'
 
 function Cadastro (){
@@ -17,7 +18,6 @@ function Cadastro (){
     const [Cidade, setCidade]   = useState('');
     const [Estado, setEstado]   = useState('');
     const [Tel, setTelefone]    = useState('');
-
 
     function handleNomeChange(Nome){ setNome(Nome); } 
     function handleCpfChange(Cpf){ setCpf(Cpf); } 
@@ -47,6 +47,7 @@ function Cadastro (){
     return(
         <>
         <ScrollView style={styles.container}>
+        <Titulo titulo="Cadastro de Cuidador"></Titulo>
             <TextInput style={styles.input} placeholder="Nome" keyboardType="default" onChangeText={handleNomeChange}/>
             <TextInput style={styles.input} placeholder="CPF" keyboardType="default" onChangeText={handleCpfChange}/>
             <TextInput style={styles.input} placeholder="E-mail" keyboardType="email-address" onChangeText={handleEmailChange}/>
