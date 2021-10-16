@@ -1,12 +1,9 @@
 import React, {useState} from "react";
 import {View,TextInput, Text, ScrollView, TouchableOpacity, Alert} from 'react-native'
+import CuidadorController from "../../../controller/CuidadorController";
 import styles from './style'
-import Endereco from '../../../database/Endereco'
-import Telefone from "../../../database/Telefone";
-import Cuidador from "../../../database/Cuidador";
 
 function Cadastro (){
-
 
     const [Nome, setNome]            = useState('');
     const [Cpf, setCpf]              = useState('');
@@ -36,12 +33,15 @@ function Cadastro (){
     function handleTelefoneChange(Tel){ setTelefone(Tel); } 
 
     function handleButtonPress(){ 
-        Endereco.create({Cep,Numero,Rua,Bairro,Cidade,Estado}).then(EnderecoId => {
-            Telefone.create({Tel}).then(TelefoneId => {
-               Cuidador.create({Cpf, Nome, Email, Senha, TelefoneId, EnderecoId}).then(result => Alert.alert("Cadastro Efetuado", "Seu cadastro foi realizado com sucesso! Realize o login."))
-            })
-        });
-       
+        
+        if(Nome === '' || Cpf === '' || Email === '' || Senha === '' || ConfSenha === '' || Cep === '' || Numero === '' || Rua === '' || Bairro === '' || Cidade === '' ||  Estado === '' || Tel === ''){
+            Alert.alert("Preencha todos os campos", "Preencha todos os campos para realizar o cadastro!");
+        } else if(Senha !== ConfSenha){
+            Alert.alert("Senhas não coincidem", "Assegure-se de que os campos Senha e Confirmar senha são idênticos!");
+        }
+        else {
+            CuidadorController.create({Cep,Numero,Rua,Bairro,Cidade,Estado,Tel, Cpf, Nome, Email, Senha})
+        }
     }
 
     return(
