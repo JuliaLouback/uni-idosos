@@ -16,10 +16,7 @@ const create = (obj) => {
           [obj.Cep, obj.Numero, obj.Rua, obj.Bairro, obj.Cidade, obj.Estado],
           //-----------------------
           (_, { rowsAffected, insertId }) => {
-            if (rowsAffected > 0) {
-                Alert.alert("deu certo" + insertId)
-                resolve(insertId);
-            }
+            if (rowsAffected > 0) resolve(insertId);
             else reject("Error inserting obj: " + JSON.stringify(obj)); // insert falhou
           },
           (_, error) => reject(error) // erro interno em tx.executeSql
