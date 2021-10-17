@@ -3,6 +3,7 @@ import Endereco from '../database/Endereco'
 import Telefone from "../database/Telefone";
 import Cuidador from "../database/Cuidador";
 import { Alert } from "react-native";
+import asyncStorage from "../services/asyncStorage";
 
 const create = (obj) => {
 
@@ -20,20 +21,74 @@ const create = (obj) => {
         Nome: obj.Nome,
         Email: obj.Email,
         Senha: obj.Senha,
-        TelefoneId: '',
-        EnderecoId: ''
+        Telefone: '',
+        Endereco: ''
     }
     
     Endereco.create(endereco).then(EnderecoId => {
        
         Telefone.create(obj.Tel).then(TelefoneId => {
-            cuidador.TelefoneId = TelefoneId
-            cuidador.EnderecoId = EnderecoId
+           
+            Cuidador.create(cuidador).then(result => {
+                Alert.alert("Cadastro Efetuado", "Seu cadastro foi realizado com sucesso! Realize o login.")
+                cuidador.Endereco = { ...endereco, EnderecoId: EnderecoId },
+                cuidador.Telefone = {  TelefoneId: TelefoneId , Telefone: obj.Tel} 
 
-            Cuidador.create(cuidador).then(result => Alert.alert("Cadastro Efetuado", "Seu cadastro foi realizado com sucesso! Realize o login."))
+                asyncStorage.storeData("User", JSON.stringify(cuidador))
+            })
             
         })
     });
 }
 
-export default { create };
+const update = (obj) => {
+
+    const endereco = {
+        EnderecoId: obj.EnderecoId,
+        Cep: obj.Cep,
+        Numero: obj.Numero,
+        Rua: obj.Rua,
+        Bairro: obj.Bairro, 
+        Cidade: obj.Cidade,
+        Estado: obj.Estado
+    }
+
+    const telefone = {
+        TelefoneId: obj.TelefoneId,
+        Telefone: obj.Tel
+    }
+
+    const cuidador = {
+        Cpf: obj.Cpf,
+        Nome: obj.Nome,
+        Email: obj.Email,
+        Senha: obj.Senha,
+        Endereco: endereco,
+        Telefone: telefone
+    }
+    
+    
+    Endereco.update(endereco).then(result => {
+      
+        Telefone.update(telefone).then(result => {
+            Cuidador.update(cuidador).then(result => {
+                asyncStorage.storeData("User", JSON.stringify(cuidador))
+            })
+        })    
+    })
+           
+}
+
+const remove = (obj) => {
+     
+    Endereco.remove(obj.EnderecoId).then(result => {
+      
+        Telefone.remove(obj.TelefoneId).then(result => {
+            Cuidador.remove(CpfCuidador).then(result => {
+                asyncStorage.removeData("User")
+            })
+        })    
+    })
+}
+
+export default { create, update, remove };

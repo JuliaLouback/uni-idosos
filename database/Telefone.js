@@ -25,4 +25,41 @@ const create = (obj) => {
     });
 };
 
-export default { create };
+const update = (obj) => {
+  return new Promise((resolve, reject) => {
+    db.transaction((tx) => {
+      //comando SQL modificável
+      tx.executeSql(
+        "UPDATE Telefone SET Telefone=? WHERE Id=?;",
+        [obj.Telefone, obj.TelefoneId],
+        //-----------------------
+        (_, { rowsAffected }) => {
+          if (rowsAffected > 0) resolve(rowsAffected);
+          else { 
+            Alert.alert(obj.TelefoneId.toString())
+            reject("Error updating obj: id=" + id);} // nenhum registro alterado
+        },
+        (_, error) => reject(error) // erro interno em tx.executeSql
+      );
+    });
+  });
+};
+
+const remove = (id) => {
+  return new Promise((resolve, reject) => {
+    db.transaction((tx) => {
+      //comando SQL modificável
+      tx.executeSql(
+        "DELETE FROM Telefone WHERE Id=?;",
+        [id],
+        //-----------------------
+        (_, { rowsAffected }) => {
+          resolve(rowsAffected);
+        },
+        (_, error) => reject(error) // erro interno em tx.executeSql
+      );
+    });
+  });
+};
+
+export default { create, update, remove };

@@ -25,4 +25,39 @@ const create = (obj) => {
     });
 };
 
-export default { create };
+const update = (obj) => {
+  return new Promise((resolve, reject) => {
+    db.transaction((tx) => {
+      //comando SQL modificável
+      tx.executeSql(
+        "UPDATE Endereco SET Cep=?, Numero=?, Rua = ?, Bairro = ?, Cidade = ?, Estado = ? WHERE Id=?;",
+        [obj.Cep, obj.Numero, obj.Rua, obj.Bairro, obj.Cidade, obj.Estado, obj.EnderecoId],
+        //-----------------------
+        (_, { rowsAffected }) => {
+          if (rowsAffected > 0) resolve(rowsAffected);
+          else reject("Error updating obj: id=" + id); // nenhum registro alterado
+        },
+        (_, error) => reject(error) // erro interno em tx.executeSql
+      );
+    });
+  });
+};
+
+const remove = (id) => {
+  return new Promise((resolve, reject) => {
+    db.transaction((tx) => {
+      //comando SQL modificável
+      tx.executeSql(
+        "DELETE FROM Endereco WHERE Id=?;",
+        [id],
+        //-----------------------
+        (_, { rowsAffected }) => {
+          resolve(rowsAffected);
+        },
+        (_, error) => reject(error) // erro interno em tx.executeSql
+      );
+    });
+  });
+};
+
+export default { create, update, remove };

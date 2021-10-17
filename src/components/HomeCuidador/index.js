@@ -1,21 +1,31 @@
 import React, {useState} from "react";
-import {View, TouchableOpacity, Text, Image, ScrollView, ImageBackground} from 'react-native'
+import {View, TouchableOpacity, Text, Image, ScrollView} from 'react-native'
+import asyncStorage from "../../../services/asyncStorage";
+import { useIsFocused } from '@react-navigation/native';
+
 import Titulo from '../Titulo'
 import styles from './style'
 
 function HomeCuidador ({navigation}){
+
+    const isFocused = useIsFocused();
+
+    const [user, setUser] = useState('')
+    
+    isFocused ?  asyncStorage.getData("User").then(result => setUser(result)) : ''
+
     return (
             <>
             <ScrollView style={styles.container}>
                 <Titulo titulo="Home"></Titulo>
                 <View style={styles.changeDirection}>
-                    <Text style={styles.nomeUsuario}>Olá, Usuário</Text>
-                    <TouchableOpacity onPress={() => navigation.navigate("Teste")} style={styles.btnPerfil}>
+                    <Text style={styles.nomeUsuario}>Olá, {user.Nome}</Text>
+                    <TouchableOpacity onPress={() => navigation.navigate("Perfil", user)} style={styles.btnPerfil}>
                         <Text style={styles.txtPerfil}>Perfil</Text>
                     </TouchableOpacity>
                 </View>
                 <View style={styles.changeDirection}>
-                    <TouchableOpacity onPress={() => navigation.navigate("Teste")} style={styles.btnContatos}>
+                    <TouchableOpacity onPress={() => navigation.navigate("Cadastro")} style={styles.btnContatos}>
                         <Image source={require('../../img/sos.png')}/>
                         <Text style={styles.txtRowOne}>Contatos</Text>
                     </TouchableOpacity>
