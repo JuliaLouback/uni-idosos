@@ -29,12 +29,11 @@ const create = (obj) => {
        
         Telefone.create(obj.Tel).then(TelefoneId => {
            
-            Cuidador.create(cuidador).then(result => {
-                Alert.alert("Cadastro Efetuado", "Seu cadastro foi realizado com sucesso! Realize o login.")
-                cuidador.Endereco = { ...endereco, EnderecoId: EnderecoId },
-                cuidador.Telefone = {  TelefoneId: TelefoneId , Telefone: obj.Tel} 
+            cuidador.Endereco = { ...endereco, EnderecoId: EnderecoId },
+            cuidador.Telefone = {  TelefoneId: TelefoneId , Telefone: obj.Tel} 
 
-                asyncStorage.storeData("User", JSON.stringify(cuidador))
+            Cuidador.create(cuidador).then(result => {  
+                //asyncStorage.storeData("User", JSON.stringify(cuidador))
             })
             
         })

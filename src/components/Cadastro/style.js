@@ -30,16 +30,15 @@ const styles = StyleSheet.create({
     button:{
         backgroundColor: '#FB7366',
         alignItems: 'center',
-        width:'50%',
-        marginHorizontal: '25%',
+        marginHorizontal: 30,
         paddingHorizontal: 20,
-        paddingVertical: 10,
+        paddingVertical: 15,
         borderRadius: 10,   
         marginTop: 10
     },
     textButton:{
         color: '#fff',
-        fontSize: 18,
+        fontSize: 20,
     } 
 });
 

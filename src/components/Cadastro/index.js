@@ -4,7 +4,7 @@ import CuidadorController from "../../../controller/CuidadorController";
 import Titulo from '../Titulo'
 import styles from './style'
 
-function Cadastro (){
+function Cadastro ({navigation}){
 
     const [Nome, setNome]            = useState('');
     const [Cpf, setCpf]              = useState('');
@@ -40,7 +40,9 @@ function Cadastro (){
             Alert.alert("Senhas não coincidem", "Assegure-se de que os campos Senha e Confirmar senha são idênticos!");
         }
         else {
-            CuidadorController.create({Cep,Numero,Rua,Bairro,Cidade,Estado,Tel, Cpf, Nome, Email, Senha})
+            CuidadorController.create({Cep,Numero,Rua,Bairro,Cidade,Estado,Tel, Cpf, Nome, Email, Senha});
+            Alert.alert("Cadastro Efetuado", "Seu cadastro foi realizado com sucesso! Realize o login.");
+            navigation.navigate("LoginCuidador");
         }
     }
 

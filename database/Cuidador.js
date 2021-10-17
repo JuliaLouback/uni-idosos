@@ -14,7 +14,7 @@ const create = (obj) => {
     db.transaction((tx) => {
       tx.executeSql(
         "INSERT INTO Cuidador (Cpf, Nome, Email, Senha, Telefone_Id, Endereco_Id) values (?, ?, ?, ?, ?, ?);",
-        [obj.Cpf, obj.Nome, obj.Email, obj.Senha, obj.TelefoneId, obj.EnderecoId],
+        [obj.Cpf, obj.Nome, obj.Email, obj.Senha, obj.Telefone.TelefoneId, obj.Endereco.EnderecoId],
         //-----------------------
         (_, { rowsAffected, insertId }) => {
           if (rowsAffected > 0) {
@@ -65,4 +65,28 @@ const remove = (id) => {
   });
 };
 
-export default { create, update, remove };
+const findByUser = (email, senha) => {
+  return new Promise((resolve, reject) => {
+    db.transaction((tx) => {
+      //comando SQL modificável
+      tx.executeSql(
+        "SELECT * FROM Cuidador WHERE Email=? and Senha=?;",
+        [email, senha],
+        //-----------------------
+        (_, { rows }) => {
+       
+          if (rows.length > 0) {
+            resolve(rows.item(0))
+          }
+          else {
+            Alert.alert("Login incorreto", "Verifique seu E-mail e Senha!")
+            reject("Obj not found: brand=" + brand);
+          Alert.alert("Erro")} // nenhum registro encontrado
+        },
+        (_, error) => reject(error) // erro interno em tx.executeSql
+      );
+    });
+  });
+};
+
+export default { create, update, remove, findByUser };

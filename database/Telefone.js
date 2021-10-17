@@ -62,4 +62,22 @@ const remove = (id) => {
   });
 };
 
-export default { create, update, remove };
+const findById = (id) => {
+  return new Promise((resolve, reject) => {
+    db.transaction((tx) => {
+      //comando SQL modificável
+      tx.executeSql(
+        "SELECT * FROM Telefone WHERE Id= ? ;",
+        [id],
+        //-----------------------
+        (_, { rows }) => {
+          if (rows.length > 0) resolve(rows.item(0));
+          else reject("Obj not found: brand=" + brand); // nenhum registro encontrado
+        },
+        (_, error) => reject(error) // erro interno em tx.executeSql
+      );
+    });
+  });
+};
+
+export default { create, update, remove, findById };
