@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import {View, TouchableOpacity, Text, Image, ScrollView} from 'react-native'
+import {View, TouchableOpacity, Text, Image, ScrollView, ImageBackground} from 'react-native'
 import Titulo from '../Titulo'
 import styles from './style'
 
@@ -37,10 +37,10 @@ function HomeCuidador ({navigation}){
                         <Text style={styles.txtZarit}>ZARIT</Text>
                     </TouchableOpacity>
                 </View>
-                <View style={styles.changeDirection}>
+                <View style={styles.containerDois}>
                     <TouchableOpacity onPress={() => navigation.navigate("Teste")} style={styles.btnLocalizacao}>
-                        <Image source={require('../../img/grafico.png')}/>
-                        <Text style={styles.txtRelatorios}>Localização</Text>
+                        <Image source={require("../../img/localizacao.png")} style={styles.image}></Image>
+                        <Text style={styles.text}>Localização</Text>
                     </TouchableOpacity>
                 </View>
             </ScrollView>

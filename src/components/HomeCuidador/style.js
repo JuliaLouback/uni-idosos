@@ -11,6 +11,11 @@ const styles = StyleSheet.create({
         marginHorizontal:20,
         marginVertical: 12
     },  
+    containerDois: {
+        flex: 1,
+        marginHorizontal:18,
+        marginVertical: 5
+    },  
     nomeUsuario: {
         fontSize: 25,
         fontWeight: 'bold'
@@ -86,6 +91,28 @@ const styles = StyleSheet.create({
         fontSize: 30,
         textAlign: 'center',
         marginVertical: '20%'
+    },
+    btnLocalizacao: {
+        flex: 1,
+        justifyContent: "center",
+        borderRadius: 15,
+        marginHorizontal: 15,
+        marginVertical:10
+    },
+    image: {
+        width: '100%'
+    },
+    text: {
+        color: "white",
+        fontSize: 25,
+        fontWeight: "bold",
+        textAlign: "center",
+        width:'100%',
+        padding:5,
+        backgroundColor: '#58DB76',
+        marginTop: -30,
+        borderBottomRightRadius: 20,
+        borderBottomLeftRadius: 20
     }
 })
 
