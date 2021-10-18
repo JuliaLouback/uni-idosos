@@ -9,10 +9,9 @@ import Cuidador from "../../../database/Cuidador";
 function HomeCuidador ({ navigation, route }){
 
     const [nomeUsuario, setNomeUsuario] = useState('')
-      
-    useEffect(() => {
 
-        asyncStorage.getData("User").then(result =>{ setNomeUsuario(result.Nome)})
+    useEffect(() => {
+        asyncStorage.getData("User").then(result =>{ setNomeUsuario(result.Nome? result.Nome : route.params)})
     })
 
     return (

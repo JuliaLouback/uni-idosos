@@ -85,7 +85,7 @@ const remove = (obj) => {
      
     Endereco.remove(obj.Endereco_Id).then(result => {  
         Telefone.remove(obj.Telefone_Id).then(result => {
-            Cuidador.remove(CpfCuidador).then(result => {
+            Cuidador.remove(obj.Cpf).then(result => {
                 asyncStorage.removeData("User")
             })
         })    

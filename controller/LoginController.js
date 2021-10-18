@@ -7,7 +7,7 @@ const findByUser = (email, senha, navigation) => {
    
     Cuidador.findByUser(email, base64.encode(senha)).then(cuidador => {
         CuidadorController.select(cuidador.Cpf)
-        navigation.navigate("Home")
+        navigation.navigate("Home", cuidador.Nome)
     }) 
 }
 

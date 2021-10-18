@@ -1,5 +1,6 @@
 import React, {useState} from "react";
 import {View,TextInput, Text, ScrollView, TouchableOpacity, Alert} from 'react-native'
+import { cpf } from 'cpf-cnpj-validator'; 
 import { Formik } from 'formik'
 
 import CuidadorController from "../../../controller/CuidadorController";
@@ -10,38 +11,31 @@ import styles from './style'
 
 function Cadastro ({navigation}){
 
-    const [Nome, setNome]            = useState('');
-    const [Cpf, setCpf]              = useState('');
-    const [Email, setEmail]          = useState('');
-    const [Senha, setSenha]          = useState('');
-    const [ConfSenha, setConfSenha]  = useState('');
-    const [Cep, setCep]         = useState('0'); 
-    const [Numero, setNumero]   = useState(0);
-    const [Rua, setRua]         = useState('');
-    const [Bairro, setBairro]   = useState('');
-    const [Cidade, setCidade]   = useState('');
-    const [Estado, setEstado]   = useState('');
-    const [Tel, setTelefone]    = useState('');
-
     function cadastroUser(values){ 
         
         if(values.Senha !== values.ConfSenha){
             Alert.alert("Senhas não coincidem", "Assegure-se de que os campos Senha e Confirmar senha são idênticos!");
         }
         else {
-            CuidadorController.create(values);
-            Alert.alert(
-                "Cadastro Efetuado",
-                "Seu cadastro foi realizado com sucesso! Realize o login.",
-                [
-                    {
-                      text: "Ok",
-                      onPress: () => {
-                        navigation.navigate("LoginCuidador");
-                      },
-                    },   
-                ]
-            );
+            console.log(cpf.isValid(values.Cpf))
+            if(!cpf.isValid(values.Cpf)){
+                Alert.alert("CPF Inválido", "Entre com CPF Válido.")
+            }
+            else {
+                CuidadorController.create(values);
+                Alert.alert(
+                    "Cadastro Efetuado",
+                    "Seu cadastro foi realizado com sucesso! Realize o login.",
+                    [
+                        {
+                        text: "Ok",
+                        onPress: () => {
+                            navigation.navigate("LoginCuidador");
+                        },
+                        },   
+                    ]
+                );
+            }
         }
     }
 
