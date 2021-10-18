@@ -77,7 +77,7 @@ function Perfil ({ navigation, route }){
                 "Edição Realizada com sucesso!",
                 [
                     {
-                      text: "Sim",
+                      text: "Ok",
                       onPress: () => {
                           navigation.navigate("Home", {Nome}) 
                       },
@@ -136,8 +136,8 @@ function Perfil ({ navigation, route }){
                 />
             </View>
 
-            <TextInput style={styles.input} placeholder="Senha" keyboardType="default" onChangeText={handleSenhaChange} editable={editarSenha}/>
-            <TextInput style={styles.input} placeholder="Confirmar Senha" keyboardType="default" onChangeText={handleConfSenhaChange} editable={editarSenha}/> 
+            <TextInput style={styles.input} placeholder="Senha" keyboardType="default" onChangeText={handleSenhaChange} editable={editarSenha} secureTextEntry={true}/>
+            <TextInput style={styles.input} placeholder="Confirmar Senha" keyboardType="default" onChangeText={handleConfSenhaChange} editable={editarSenha} secureTextEntry={true}/> 
 
             <View style={styles.divDirection}>
                 <TouchableOpacity style={styles.button} onPress={handleButtonPress}>

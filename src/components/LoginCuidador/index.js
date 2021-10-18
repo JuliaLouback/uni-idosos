@@ -1,23 +1,12 @@
 import React, {useState} from "react";
 import {View, Text, Image, TouchableOpacity, TextInput, Alert, ScrollView} from 'react-native'
+import { Formik } from 'formik'
+
 import LoginController from "../../../controller/LoginController";
+import validations from "../../validations/validations";
 import styles from './style'
 
 function LoginCuidador ({navigation}){
-
-    const [Email, setEmail]            = useState('');
-    const [Senha, setSenha]              = useState('');
-
-    function handleEmailChange(Email){ setEmail(Email); } 
-    function handleSenhaChange(Senha){ setSenha(Senha); } 
-
-    function handleButtonPress(){ 
-        if(Email === '' || Senha === ''){
-            Alert.alert("Preencha todos os campos", "Preencha todos os campos para realizar o login!");
-        } else {
-            LoginController.findByUser(Email, Senha, navigation) 
-        }
-    }
 
     return(
         <ScrollView style={styles.container}>
@@ -25,12 +14,54 @@ function LoginCuidador ({navigation}){
             <Text style={styles.text}>Olá Cuidador</Text>
             <Text style={styles.subtitle}>efetue seu login para um melhor acompanhamento</Text>
 
-            <TextInput style={styles.input} placeholder="E-mail" keyboardType="email-address" onChangeText={handleEmailChange}/>
-            <TextInput style={styles.input} placeholder="Senha" keyboardType="default" onChangeText={handleSenhaChange}/>
+            <Formik
+                validationSchema={validations.loginValidationSchema}
+                initialValues={{ email: '', senha: '' }}
+                onSubmit={values =>  LoginController.findByUser(values.email, values.senha, navigation) }
+            >
+            {({
+                handleChange,
+                handleBlur,
+                handleSubmit,
+                values,
+                errors,
+                isValid,
+            }) => (
+            <>
+            <TextInput 
+                name="email"
+                style={styles.input}
+                placeholder="E-mail"
+                keyboardType="email-address"
+                onChangeText={handleChange('email')}
+                onBlur={handleBlur('email')}
+                value={values.email}
+            />
+            {errors.email &&
+                <Text style={{ fontSize: 15, color: 'red', marginHorizontal: 30, marginVertical:2 }}>{errors.email}</Text>
+            }
 
-            <TouchableOpacity style={styles.button}  onPress={handleButtonPress}>
+            <TextInput
+                name="senha"
+                style={styles.input}
+                placeholder="Senha"
+                keyboardType="default"
+                secureTextEntry={true}
+                onChangeText={handleChange('senha')}
+                onBlur={handleBlur('senha')}
+                value={values.senha}
+            />
+
+            {errors.senha &&
+                <Text style={{ fontSize: 15, color: 'red', marginHorizontal: 30, marginVertical:2 }}>{errors.senha}</Text>
+            }
+
+            <TouchableOpacity style={styles.button}  onPress={handleSubmit}>
                 <Text style={styles.textButton}>Login</Text>
             </TouchableOpacity>
+            </>
+            )}
+            </Formik>
             <View style={{flexDirection: 'row', alignItems: 'center', marginHorizontal: 30, marginVertical: 10}}>
                 <View style={{flex: 1, height: 1, backgroundColor: "#FF8383"}} />
                     <View>

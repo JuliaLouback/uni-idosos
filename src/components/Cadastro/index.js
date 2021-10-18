@@ -1,6 +1,10 @@
 import React, {useState} from "react";
 import {View,TextInput, Text, ScrollView, TouchableOpacity, Alert} from 'react-native'
+import { Formik } from 'formik'
+
 import CuidadorController from "../../../controller/CuidadorController";
+import validations from "../../validations/validations";
+
 import Titulo from '../Titulo'
 import styles from './style'
 
@@ -19,30 +23,25 @@ function Cadastro ({navigation}){
     const [Estado, setEstado]   = useState('');
     const [Tel, setTelefone]    = useState('');
 
-    function handleNomeChange(Nome){ setNome(Nome); } 
-    function handleCpfChange(Cpf){ setCpf(Cpf); } 
-    function handleEmailChange(Email){ setEmail(Email); } 
-    function handleSenhaChange(Senha){ setSenha(Senha); } 
-    function handleConfSenhaChange(ConfSenha){ setConfSenha(ConfSenha); } 
-    function handleCepChange(Cep){ setCep(Cep); } 
-    function handleNumeroChange(Numero){ setNumero(Numero); } 
-    function handleRuaChange(Rua){ setRua(Rua); } 
-    function handleBairroChange(Bairro){ setBairro(Bairro); } 
-    function handleCidadeChange(Cidade){ setCidade(Cidade); } 
-    function handleEstadoChange(Estado){ setEstado(Estado); } 
-    function handleTelefoneChange(Tel){ setTelefone(Tel); } 
-
-    function handleButtonPress(){ 
+    function cadastroUser(values){ 
         
-        if(Nome === '' || Cpf === '' || Email === '' || Senha === '' || ConfSenha === '' || Cep === '' || Numero === '' || Rua === '' || Bairro === '' || Cidade === '' ||  Estado === '' || Tel === ''){
-            Alert.alert("Preencha todos os campos", "Preencha todos os campos para realizar o cadastro!");
-        } else if(Senha !== ConfSenha){
+        if(values.Senha !== values.ConfSenha){
             Alert.alert("Senhas não coincidem", "Assegure-se de que os campos Senha e Confirmar senha são idênticos!");
         }
         else {
-            CuidadorController.create({Cep,Numero,Rua,Bairro,Cidade,Estado,Tel, Cpf, Nome, Email, Senha});
-            Alert.alert("Cadastro Efetuado", "Seu cadastro foi realizado com sucesso! Realize o login.");
-            navigation.navigate("LoginCuidador");
+            CuidadorController.create(values);
+            Alert.alert(
+                "Cadastro Efetuado",
+                "Seu cadastro foi realizado com sucesso! Realize o login.",
+                [
+                    {
+                      text: "Ok",
+                      onPress: () => {
+                        navigation.navigate("LoginCuidador");
+                      },
+                    },   
+                ]
+            );
         }
     }
 
@@ -50,26 +49,190 @@ function Cadastro ({navigation}){
         <>
         <ScrollView style={styles.container}>
         <Titulo titulo="Cadastro de Cuidador"></Titulo>
-            <TextInput style={styles.input} placeholder="Nome" keyboardType="default" onChangeText={handleNomeChange}/>
-            <TextInput style={styles.input} placeholder="CPF" keyboardType="default" onChangeText={handleCpfChange}/>
-            <TextInput style={styles.input} placeholder="E-mail" keyboardType="email-address" onChangeText={handleEmailChange}/>
-            <TextInput style={styles.input} placeholder="Senha" keyboardType="default" onChangeText={handleSenhaChange}/>
-            <TextInput style={styles.input} placeholder="Confirmar Senha" keyboardType="default" onChangeText={handleConfSenhaChange}/>
-            
-            <TextInput style={styles.input} placeholder="Telefone" keyboardType="phone-pad" onChangeText={handleTelefoneChange}/>
-            <View style={styles.divDirection}>
-                <TextInput style={styles.inputAddress} placeholder="CEP" keyboardType="default" onChangeText={handleCepChange}/>
-                <TextInput style={styles.inputAddress} placeholder="Número" keyboardType="numeric" onChangeText={handleNumeroChange}/>
-            </View>
+            <Formik
+                    validationSchema={validations.cadastroValidationSchema}
+                    initialValues={{ Nome: '', Cpf: '', Email: '', Senha: '', ConfSenha: '', Tel: '', Cep: '', Numero: '', Rua: '', Bairro: '', Cidade: '', Estado: '' }}
+                    onSubmit={values =>  cadastroUser(values) }
+                >
+                {({
+                    handleChange,
+                    handleBlur,
+                    handleSubmit,
+                    values,
+                    errors,
+                    isValid,
+                }) => (
+                <>
+                <TextInput 
+                    name="Nome"
+                    style={styles.input}
+                    placeholder="Nome"
+                    keyboardType="default"
+                    onChangeText={handleChange('Nome')}
+                    onBlur={handleBlur('Nome')}
+                    value={values.Nome}
+                />
+                {errors.Nome &&
+                    <Text style={{ fontSize: 15, color: 'red', marginHorizontal: 30, marginVertical:2 }}>{errors.Nome}</Text>
+                }
 
-            <TextInput style={styles.input} placeholder="Rua" keyboardType="default" onChangeText={handleRuaChange}/>
-            <TextInput style={styles.input} placeholder="Bairro" keyboardType="default" onChangeText={handleBairroChange}/>
-            <TextInput style={styles.input} placeholder="Cidade" keyboardType="default" onChangeText={handleCidadeChange}/>
-            <TextInput style={styles.input} placeholder="Estado" keyboardType="default" onChangeText={handleEstadoChange}/>
+                <TextInput 
+                    name="Cpf"
+                    style={styles.input} 
+                    placeholder="CPF"
+                    keyboardType="numeric"
+                    onChangeText={handleChange('Cpf')}
+                    onBlur={handleBlur('Cpf')}
+                    value={values.Cpf}     
+                />
+                {errors.Cpf &&
+                    <Text style={{ fontSize: 15, color: 'red', marginHorizontal: 30, marginVertical:2 }}>{errors.Cpf}</Text>
+                }
 
-            <TouchableOpacity style={styles.button} onPress={handleButtonPress}>
-                <Text style={styles.textButton}>Cadastrar</Text>
-            </TouchableOpacity>
+                <TextInput 
+                    name="Email"
+                    style={styles.input}
+                    placeholder="E-mail"
+                    keyboardType="email-address"
+                    onChangeText={handleChange('Email')}
+                    onBlur={handleBlur('Email')}
+                    value={values.Email}     
+                />
+                {errors.Email &&
+                    <Text style={{ fontSize: 15, color: 'red', marginHorizontal: 30, marginVertical:2 }}>{errors.Email}</Text>
+                }
+                
+                <TextInput 
+                    name="Senha"
+                    style={styles.input} 
+                    placeholder="Senha" 
+                    keyboardType="default" 
+                    secureTextEntry={true}
+                    onChangeText={handleChange('Senha')}
+                    onBlur={handleBlur('Senha')}
+                    value={values.Senha}    
+                />
+                {errors.Senha &&
+                    <Text style={{ fontSize: 15, color: 'red', marginHorizontal: 30, marginVertical:2 }}>{errors.Senha}</Text>
+                }
+
+                <TextInput 
+                    name="ConfSenha"
+                    style={styles.input}
+                    placeholder="Confirmar Senha"
+                    keyboardType="default"
+                    secureTextEntry={true}
+                    onChangeText={handleChange('ConfSenha')}
+                    onBlur={handleBlur('ConfSenha')}
+                    value={values.ConfSenha} 
+                />
+                {errors.ConfSenha &&
+                    <Text style={{ fontSize: 15, color: 'red', marginHorizontal: 30, marginVertical:2 }}>{errors.ConfSenha}</Text>
+                }
+
+                <TextInput 
+                    name="Tel"
+                    style={styles.input} 
+                    placeholder="Telefone"
+                    keyboardType="phone-pad"
+                    onChangeText={handleChange('Tel')}
+                    onBlur={handleBlur('Tel')}
+                    value={values.Tel} 
+                />
+                {errors.Tel &&
+                    <Text style={{ fontSize: 15, color: 'red', marginHorizontal: 30, marginVertical:2 }}>{errors.Tel}</Text>
+                }
+                
+                <View style={styles.divDirection}>
+
+                    <TextInput 
+                        name="Cep"
+                        style={styles.inputAddress} 
+                        placeholder="CEP"
+                        keyboardType="numeric" 
+                        onChangeText={handleChange('Cep')}
+                        onBlur={handleBlur('Cep')}
+                        value={values.Cep} 
+                    />
+
+                    <TextInput 
+                        name="Numero"
+                        style={styles.inputAddress}
+                        placeholder="Número" 
+                        keyboardType="numeric"
+                        onChangeText={handleChange('Numero')}
+                        onBlur={handleBlur('Numero')}
+                        value={values.Numero}     
+                    />
+                </View>
+
+                <View style={styles.divDirection}>
+                    {errors.Cep &&
+                        <Text style={{ fontSize: 15, color: 'red', marginHorizontal: 10, marginVertical:2, flex: 1 }}>{errors.Cep}</Text>
+                    }
+                    {errors.Numero &&
+                        <Text style={{ fontSize: 15, color: 'red', marginHorizontal: 10, marginVertical:2, flex: 1 }}>{errors.Numero}</Text>
+                    }
+                </View>
+
+                <TextInput 
+                    name="Rua"
+                    style={styles.input}
+                    placeholder="Rua"
+                    keyboardType="default" 
+                    onChangeText={handleChange('Rua')}
+                    onBlur={handleBlur('Rua')}
+                    value={values.Rua} 
+                />
+                {errors.Rua &&
+                    <Text style={{ fontSize: 15, color: 'red', marginHorizontal: 30, marginVertical:2 }}>{errors.Rua}</Text>
+                }
+
+                <TextInput 
+                    name="Bairro"
+                    style={styles.input} 
+                    placeholder="Bairro"
+                    keyboardType="default"
+                    onChangeText={handleChange('Bairro')}
+                    onBlur={handleBlur('Bairro')}
+                    value={values.Bairro} 
+                />
+                {errors.Bairro &&
+                    <Text style={{ fontSize: 15, color: 'red', marginHorizontal: 30, marginVertical:2 }}>{errors.Bairro}</Text>
+                }
+
+                <TextInput 
+                    name="Cidade"
+                    style={styles.input} 
+                    placeholder="Cidade"
+                    keyboardType="default"
+                    onChangeText={handleChange('Cidade')}
+                    onBlur={handleBlur('Cidade')}
+                    value={values.Cidade} 
+                />
+                {errors.Cidade &&
+                    <Text style={{ fontSize: 15, color: 'red', marginHorizontal: 30, marginVertical:2 }}>{errors.Cidade}</Text>
+                }
+
+                <TextInput 
+                    name="Estado"
+                    style={styles.input} 
+                    placeholder="Estado"
+                    keyboardType="default"
+                    onChangeText={handleChange('Estado')}
+                    onBlur={handleBlur('Estado')}
+                    value={values.Estado} 
+                />
+                {errors.Estado &&
+                    <Text style={{ fontSize: 15, color: 'red', marginHorizontal: 30, marginVertical:2 }}>{errors.Estado}</Text>
+                }
+
+                <TouchableOpacity style={styles.button} onPress={handleSubmit}>
+                    <Text style={styles.textButton}>Cadastrar</Text>
+                </TouchableOpacity>
+                </>
+            )}
+            </Formik>
         </ScrollView>
        
         </>
