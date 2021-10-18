@@ -25,12 +25,12 @@ const create = (obj) => {
         Endereco: ''
     }
     
-    Endereco.create(endereco).then(EnderecoId => {
+    Endereco.create(endereco).then(endereco_id => {
        
-        Telefone.create(obj.Tel).then(TelefoneId => {
+        Telefone.create(obj.Tel).then(telefone_id => {
            
-            cuidador.Endereco = { ...endereco, EnderecoId: EnderecoId },
-            cuidador.Telefone = {  TelefoneId: TelefoneId , Telefone: obj.Tel} 
+            cuidador.Endereco = {Endereco_Id: endereco_id, ...endereco }
+            cuidador.Telefone = {Telefone_Id: telefone_id, Telefone: obj.Tel}
 
             Cuidador.create(cuidador).then(result => {  
                 //asyncStorage.storeData("User", JSON.stringify(cuidador))
@@ -43,7 +43,7 @@ const create = (obj) => {
 const update = (obj) => {
 
     const endereco = {
-        EnderecoId: obj.EnderecoId,
+        Endereco_Id: obj.Endereco_Id,
         Cep: obj.Cep,
         Numero: obj.Numero,
         Rua: obj.Rua,
@@ -53,7 +53,7 @@ const update = (obj) => {
     }
 
     const telefone = {
-        TelefoneId: obj.TelefoneId,
+        Telefone_Id: obj.Telefone_Id,
         Telefone: obj.Tel
     }
 
@@ -62,13 +62,13 @@ const update = (obj) => {
         Nome: obj.Nome,
         Email: obj.Email,
         Senha: obj.Senha,
-        Endereco: endereco,
-        Telefone: telefone
+        Endereco: { ...endereco},
+        Telefone: {...telefone},
+        Endereco_Id: obj.Endereco_Id,
+        Telefone_Id: obj.Telefone_Id
     }
     
-    
-    Endereco.update(endereco).then(result => {
-      
+    Endereco.update(endereco).then(result => {  
         Telefone.update(telefone).then(result => {
             Cuidador.update(cuidador).then(result => {
                 asyncStorage.storeData("User", JSON.stringify(cuidador))
@@ -80,9 +80,8 @@ const update = (obj) => {
 
 const remove = (obj) => {
      
-    Endereco.remove(obj.EnderecoId).then(result => {
-      
-        Telefone.remove(obj.TelefoneId).then(result => {
+    Endereco.remove(obj.Endereco_Id).then(result => {  
+        Telefone.remove(obj.Telefone_Id).then(result => {
             Cuidador.remove(CpfCuidador).then(result => {
                 asyncStorage.removeData("User")
             })
@@ -90,4 +89,16 @@ const remove = (obj) => {
     })
 }
 
-export default { create, update, remove };
+const select = (cpf) => {
+
+    Cuidador.findByUserCpf(cpf).then(cuidador => {
+        Endereco.findById(cuidador.Endereco_Id).then(endereco => {
+            Telefone.findById(cuidador.Telefone_Id).then(telefone => {
+                asyncStorage.storeData("User", JSON.stringify({...cuidador, Endereco: endereco, Telefone: telefone }))
+                //console.info( JSON.stringify({...cuidador, Endereco: endereco, Telefone: telefone }))
+            })
+        })
+    })
+}
+
+export default { create, update, remove, select };

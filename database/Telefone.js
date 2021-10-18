@@ -13,7 +13,7 @@ const create = (obj) => {
       db.transaction((tx) => {
         tx.executeSql(
           "INSERT INTO Telefone (Telefone) values (?);",
-          [obj.Telefone],
+          [obj],
           //-----------------------
           (_, { rowsAffected, insertId }) => {
             if (rowsAffected > 0) resolve(insertId);
@@ -31,12 +31,12 @@ const update = (obj) => {
       //comando SQL modificável
       tx.executeSql(
         "UPDATE Telefone SET Telefone=? WHERE Id=?;",
-        [obj.Telefone, obj.TelefoneId],
+        [obj.Telefone, obj.Telefone_Id],
         //-----------------------
         (_, { rowsAffected }) => {
           if (rowsAffected > 0) resolve(rowsAffected);
           else { 
-            Alert.alert(obj.TelefoneId.toString())
+            //Alert.alert(obj.TelefoneId.toString())
             reject("Error updating obj: id=" + id);} // nenhum registro alterado
         },
         (_, error) => reject(error) // erro interno em tx.executeSql

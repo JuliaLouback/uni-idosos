@@ -14,7 +14,7 @@ const create = (obj) => {
     db.transaction((tx) => {
       tx.executeSql(
         "INSERT INTO Cuidador (Cpf, Nome, Email, Senha, Telefone_Id, Endereco_Id) values (?, ?, ?, ?, ?, ?);",
-        [obj.Cpf, obj.Nome, obj.Email, obj.Senha, obj.Telefone.TelefoneId, obj.Endereco.EnderecoId],
+        [obj.Cpf, obj.Nome, obj.Email, obj.Senha, obj.Telefone.Telefone_Id, obj.Endereco.Endereco_Id],
         //-----------------------
         (_, { rowsAffected, insertId }) => {
           if (rowsAffected > 0) {
@@ -33,8 +33,8 @@ const update = (obj) => {
     db.transaction((tx) => {
       //comando SQL modificável
       tx.executeSql(
-        "UPDATE Cuidador SET Nome=?, Email=?, Senha = ? WHERE Cpf=?;",
-        [obj.Nome, obj.Email, obj.Senha, obj.Cpf],
+        "UPDATE Cuidador SET Nome=?, Email=? WHERE Cpf=?;",
+        [obj.Nome, obj.Email,obj.Cpf],
         //-----------------------
         (_, { rowsAffected }) => {
           if (rowsAffected > 0) {
@@ -89,4 +89,29 @@ const findByUser = (email, senha) => {
   });
 };
 
-export default { create, update, remove, findByUser };
+const findByUserCpf = (cpf) => {
+  return new Promise((resolve, reject) => {
+    db.transaction((tx) => {
+      //comando SQL modificável
+      tx.executeSql(
+        "SELECT * FROM Cuidador WHERE Cpf=?;",
+        [cpf],
+        //-----------------------
+        (_, { rows }) => {
+       
+          if (rows.length > 0) {
+            //Alert.alert(JSON.stringify(rows.item(0)))
+            resolve(rows.item(0))
+          }
+          else {
+            reject("Obj not found: brand=" + brand);
+          Alert.alert("Erro")} // nenhum registro encontrado
+        },
+        (_, error) => reject(error) // erro interno em tx.executeSql
+      );
+    });
+  });
+};
+
+
+export default { create, update, remove, findByUser, findByUserCpf };

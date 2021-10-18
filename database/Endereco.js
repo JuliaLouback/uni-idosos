@@ -26,12 +26,13 @@ const create = (obj) => {
 };
 
 const update = (obj) => {
+      
   return new Promise((resolve, reject) => {
     db.transaction((tx) => {
       //comando SQL modificável
       tx.executeSql(
         "UPDATE Endereco SET Cep=?, Numero=?, Rua = ?, Bairro = ?, Cidade = ?, Estado = ? WHERE Id=?;",
-        [obj.Cep, obj.Numero, obj.Rua, obj.Bairro, obj.Cidade, obj.Estado, obj.EnderecoId],
+        [obj.Cep, obj.Numero, obj.Rua, obj.Bairro, obj.Cidade, obj.Estado, obj.Endereco_Id],
         //-----------------------
         (_, { rowsAffected }) => {
           if (rowsAffected > 0) resolve(rowsAffected);

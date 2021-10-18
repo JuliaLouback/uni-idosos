@@ -1,14 +1,16 @@
 import React, {useState, useEffect} from "react";
 import {View,TextInput, Text, ScrollView, TouchableOpacity, Alert} from 'react-native'
 import CuidadorController from "../../../controller/CuidadorController";
+import asyncStorage from "../../../services/asyncStorage";
+
+import Cuidador from "../../../database/Cuidador";
+
 import Titulo from '../Titulo'
 import styles from './style'
+import Endereco from "../../../database/Endereco";
+import Telefone from "../../../database/Telefone";
 
 function Perfil ({ navigation, route }){
-
-    const CpfCuidador = route.params ? route.params.Cpf : undefined;
-    const TelefoneId = route.params ? route.params.Telefone.TelefoneId : undefined;
-    const EnderecoId = route.params ? route.params.Endereco.EnderecoId : undefined;
     
     const [Nome, setNome]            = useState('');
     const [Cpf, setCpf]              = useState('');
@@ -22,19 +24,24 @@ function Perfil ({ navigation, route }){
     const [Cidade, setCidade]   = useState('');
     const [Estado, setEstado]   = useState('');
     const [Tel, setTelefone]    = useState('');
+    const [Endereco_Id, setEnderecoId]  = useState('');
+    const [Telefone_Id, setTelefoneId]  = useState('');
 
     useEffect(() => {
-    if(!route.params) return;
-        setNome(route.params.Nome);
-        setCpf(route.params.Cpf);
-        setEmail(route.params.Email);
-        setCep(route.params.Endereco.Cep);
-        setNumero(route.params.Endereco.Numero);
-        setRua(route.params.Endereco.Rua);
-        setBairro(route.params.Endereco.Bairro);
-        setCidade(route.params.Endereco.Cidade);
-        setEstado(route.params.Endereco.Estado);
-        setTelefone(route.params.Telefone.Telefone);
+        asyncStorage.getData("User").then(result =>{
+            setNome(result.Nome.toString());
+            setCpf(result.Cpf.toString());
+            setEmail(result.Email.toString());
+            setCep(result.Endereco.Cep.toString());
+            setNumero(result.Endereco.Numero.toString());
+            setRua(result.Endereco.Rua.toString());
+            setBairro(result.Endereco.Bairro.toString());
+            setCidade(result.Endereco.Cidade.toString());
+            setEstado(result.Endereco.Estado.toString());
+            setTelefone(result.Telefone.Telefone.toString());
+            setEnderecoId(result.Endereco_Id);
+            setTelefoneId(result.Telefone_Id);     
+        })
     }, [route])
 
     function handleNomeChange(Nome){ setNome(Nome); } 
@@ -58,9 +65,18 @@ function Perfil ({ navigation, route }){
             Alert.alert("Senhas não coincidem", "Assegure-se de que os campos Senha e Confirmar senha são idênticos!");
         }
         else {
-            CuidadorController.update({EnderecoId,Cep,Numero,Rua,Bairro,Cidade,Estado,TelefoneId,Tel,Cpf,Nome,Email,Senha})
-            Alert.alert("Edição realizada com Sucesso", "Edição Realizada com sucesso!")
-            navigation.navigate("Home") 
+            CuidadorController.update({Endereco_Id,Cep,Numero,Rua,Bairro,Cidade,Estado,Telefone_Id,Tel,Cpf,Nome,Email,Senha})
+            Alert.alert(
+                "Edição realizada com Sucesso", 
+                "Edição Realizada com sucesso!",
+                [
+                    {
+                      text: "Sim",
+                      onPress: () => {
+                          navigation.navigate("Home", {Nome}) 
+                      },
+                    },   
+                ])
         }
     }
 
@@ -72,9 +88,9 @@ function Perfil ({ navigation, route }){
               {
                 text: "Sim",
                 onPress: () => {
-                    CuidadorController.remove({CpfCuidador, EnderecoId, TelefoneId})
+                    CuidadorController.remove({Cpf, Endereco_Id, Telefone_Id})
                     Alert.alert("Exclusão realizada com Sucesso", "Exclusão realizada com sucesso!")
-                    navigation.navigate("Home") 
+                    navigation.navigate("LoginCuidador") 
                 },
               },
               {

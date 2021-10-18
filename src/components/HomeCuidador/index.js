@@ -1,26 +1,27 @@
-import React, {useState} from "react";
-import {View, TouchableOpacity, Text, Image, ScrollView} from 'react-native'
+import React, {useState,useEffect} from "react";
+import {View, TouchableOpacity, Text, Image, ScrollView, Alert} from 'react-native'
 import asyncStorage from "../../../services/asyncStorage";
-import { useIsFocused } from '@react-navigation/native';
 
 import Titulo from '../Titulo'
 import styles from './style'
+import Cuidador from "../../../database/Cuidador";
 
-function HomeCuidador ({navigation}){
+function HomeCuidador ({ navigation, route }){
 
-    const isFocused = useIsFocused();
+    const [nomeUsuario, setNomeUsuario] = useState('')
+      
+    useEffect(() => {
 
-    const [user, setUser] = useState('')
-    
-    isFocused ?  asyncStorage.getData("User").then(result => setUser(result)) : ''
+        asyncStorage.getData("User").then(result =>{ setNomeUsuario(result.Nome)})
+    })
 
     return (
             <>
             <ScrollView style={styles.container}>
                 <Titulo titulo="Home"></Titulo>
                 <View style={styles.changeDirection}>
-                    <Text style={styles.nomeUsuario}>Olá, {user.Nome}</Text>
-                    <TouchableOpacity onPress={() => navigation.navigate("Perfil", user)} style={styles.btnPerfil}>
+                    <Text style={styles.nomeUsuario}>Olá, {nomeUsuario}</Text>
+                    <TouchableOpacity onPress={() => navigation.navigate("Perfil")} style={styles.btnPerfil}>
                         <Text style={styles.txtPerfil}>Perfil</Text>
                     </TouchableOpacity>
                 </View>
