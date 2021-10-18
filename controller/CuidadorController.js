@@ -4,6 +4,7 @@ import Telefone from "../database/Telefone";
 import Cuidador from "../database/Cuidador";
 import { Alert } from "react-native";
 import asyncStorage from "../services/asyncStorage";
+import base64 from 'react-native-base64'
 
 const create = (obj) => {
 
@@ -20,7 +21,7 @@ const create = (obj) => {
         Cpf: obj.Cpf,
         Nome: obj.Nome,
         Email: obj.Email,
-        Senha: obj.Senha,
+        Senha: base64.encode(obj.Senha),
         Telefone: '',
         Endereco: ''
     }
@@ -33,6 +34,7 @@ const create = (obj) => {
             cuidador.Telefone = {Telefone_Id: telefone_id, Telefone: obj.Tel}
 
             Cuidador.create(cuidador).then(result => {  
+                console.info(cuidador)
                 //asyncStorage.storeData("User", JSON.stringify(cuidador))
             })
             
@@ -61,7 +63,7 @@ const update = (obj) => {
         Cpf: obj.Cpf,
         Nome: obj.Nome,
         Email: obj.Email,
-        Senha: obj.Senha,
+        Senha: base64.encode(obj.Senha),
         Endereco: { ...endereco},
         Telefone: {...telefone},
         Endereco_Id: obj.Endereco_Id,
