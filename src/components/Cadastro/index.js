@@ -65,6 +65,7 @@ function Cadastro ({navigation}){
                     onChangeText={handleChange('Nome')}
                     onBlur={handleBlur('Nome')}
                     value={values.Nome}
+                    maxLength={45}
                 />
                 {errors.Nome &&
                     <Text style={{ fontSize: 15, color: 'red', marginHorizontal: 30, marginVertical:2 }}>{errors.Nome}</Text>
@@ -77,7 +78,8 @@ function Cadastro ({navigation}){
                     keyboardType="numeric"
                     onChangeText={handleChange('Cpf')}
                     onBlur={handleBlur('Cpf')}
-                    value={values.Cpf}     
+                    value={values.Cpf}   
+                    maxLength={45}  
                 />
                 {errors.Cpf &&
                     <Text style={{ fontSize: 15, color: 'red', marginHorizontal: 30, marginVertical:2 }}>{errors.Cpf}</Text>
@@ -90,7 +92,8 @@ function Cadastro ({navigation}){
                     keyboardType="email-address"
                     onChangeText={handleChange('Email')}
                     onBlur={handleBlur('Email')}
-                    value={values.Email}     
+                    value={values.Email}
+                    maxLength={45}     
                 />
                 {errors.Email &&
                     <Text style={{ fontSize: 15, color: 'red', marginHorizontal: 30, marginVertical:2 }}>{errors.Email}</Text>
@@ -105,6 +108,7 @@ function Cadastro ({navigation}){
                     onChangeText={handleChange('Senha')}
                     onBlur={handleBlur('Senha')}
                     value={values.Senha}    
+                    maxLength={45}
                 />
                 {errors.Senha &&
                     <Text style={{ fontSize: 15, color: 'red', marginHorizontal: 30, marginVertical:2 }}>{errors.Senha}</Text>
@@ -119,6 +123,7 @@ function Cadastro ({navigation}){
                     onChangeText={handleChange('ConfSenha')}
                     onBlur={handleBlur('ConfSenha')}
                     value={values.ConfSenha} 
+                    maxLength={45}
                 />
                 {errors.ConfSenha &&
                     <Text style={{ fontSize: 15, color: 'red', marginHorizontal: 30, marginVertical:2 }}>{errors.ConfSenha}</Text>
@@ -132,6 +137,7 @@ function Cadastro ({navigation}){
                     onChangeText={handleChange('Tel')}
                     onBlur={handleBlur('Tel')}
                     value={values.Tel} 
+                    maxLength={45}
                 />
                 {errors.Tel &&
                     <Text style={{ fontSize: 15, color: 'red', marginHorizontal: 30, marginVertical:2 }}>{errors.Tel}</Text>
@@ -147,6 +153,7 @@ function Cadastro ({navigation}){
                         onChangeText={handleChange('Cep')}
                         onBlur={handleBlur('Cep')}
                         value={values.Cep} 
+                        maxLength={45}
                     />
 
                     <TextInput 
@@ -156,7 +163,8 @@ function Cadastro ({navigation}){
                         keyboardType="numeric"
                         onChangeText={handleChange('Numero')}
                         onBlur={handleBlur('Numero')}
-                        value={values.Numero}     
+                        value={values.Numero}  
+                        maxLength={45}   
                     />
                 </View>
 
@@ -176,7 +184,8 @@ function Cadastro ({navigation}){
                     keyboardType="default" 
                     onChangeText={handleChange('Rua')}
                     onBlur={handleBlur('Rua')}
-                    value={values.Rua} 
+                    value={values.Rua}
+                    maxLength={45} 
                 />
                 {errors.Rua &&
                     <Text style={{ fontSize: 15, color: 'red', marginHorizontal: 30, marginVertical:2 }}>{errors.Rua}</Text>
@@ -190,6 +199,7 @@ function Cadastro ({navigation}){
                     onChangeText={handleChange('Bairro')}
                     onBlur={handleBlur('Bairro')}
                     value={values.Bairro} 
+                    maxLength={45}
                 />
                 {errors.Bairro &&
                     <Text style={{ fontSize: 15, color: 'red', marginHorizontal: 30, marginVertical:2 }}>{errors.Bairro}</Text>
@@ -203,6 +213,7 @@ function Cadastro ({navigation}){
                     onChangeText={handleChange('Cidade')}
                     onBlur={handleBlur('Cidade')}
                     value={values.Cidade} 
+                    maxLength={45}
                 />
                 {errors.Cidade &&
                     <Text style={{ fontSize: 15, color: 'red', marginHorizontal: 30, marginVertical:2 }}>{errors.Cidade}</Text>
@@ -216,6 +227,7 @@ function Cadastro ({navigation}){
                     onChangeText={handleChange('Estado')}
                     onBlur={handleBlur('Estado')}
                     value={values.Estado} 
+                    maxLength={45}
                 />
                 {errors.Estado &&
                     <Text style={{ fontSize: 15, color: 'red', marginHorizontal: 30, marginVertical:2 }}>{errors.Estado}</Text>

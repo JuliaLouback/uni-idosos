@@ -11,7 +11,9 @@ function HomeCuidador ({ navigation, route }){
     const [nomeUsuario, setNomeUsuario] = useState('')
 
     useEffect(() => {
-        asyncStorage.getData("User").then(result =>{ setNomeUsuario(result.Nome? result.Nome : route.params)})
+        asyncStorage.getData("User").then(result => {
+            if(result != null) setNomeUsuario(result.Nome)
+        })
     })
 
     return (
@@ -19,7 +21,7 @@ function HomeCuidador ({ navigation, route }){
             <ScrollView style={styles.container}>
                 <Titulo titulo="Home"></Titulo>
                 <View style={styles.changeDirection}>
-                    <Text style={styles.nomeUsuario}>Olá, {nomeUsuario}</Text>
+                    <Text style={styles.nomeUsuario}>Olá, {route.params ? route.params : nomeUsuario}</Text>
                     <TouchableOpacity onPress={() => navigation.navigate("Perfil")} style={styles.btnPerfil}>
                         <Text style={styles.txtPerfil}>Perfil</Text>
                     </TouchableOpacity>

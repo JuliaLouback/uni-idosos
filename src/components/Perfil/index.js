@@ -61,7 +61,7 @@ function Perfil ({ navigation, route }){
                             {
                               text: "Ok",
                               onPress: () => {
-                                asyncStorage.removeData(Cpf)
+                                asyncStorage.removeData("User")
                                 navigation.navigate("LoginCuidador")  
                               },
                             },   
@@ -122,6 +122,7 @@ function Perfil ({ navigation, route }){
                         onChangeText={handleChange('Nome')}
                         onBlur={handleBlur('Nome')}
                         value={values.Nome}
+                        maxLength={45}
                     />
                     {errors.Nome &&
                         <Text style={{ fontSize: 15, color: 'red', marginHorizontal: 30, marginVertical:2 }}>{errors.Nome}</Text>
@@ -148,7 +149,8 @@ function Perfil ({ navigation, route }){
                         keyboardType="email-address"
                         onChangeText={handleChange('Email')}
                         onBlur={handleBlur('Email')}
-                        value={values.Email}     
+                        value={values.Email}  
+                        maxLength={45}   
                     />
                     {errors.Email &&
                         <Text style={{ fontSize: 15, color: 'red', marginHorizontal: 30, marginVertical:2 }}>{errors.Email}</Text>
@@ -163,6 +165,7 @@ function Perfil ({ navigation, route }){
                     onChangeText={handleChange('Tel')}
                     onBlur={handleBlur('Tel')}
                     value={values.Tel} 
+                    maxLength={45}
                 />
                 {errors.Tel &&
                     <Text style={{ fontSize: 15, color: 'red', marginHorizontal: 30, marginVertical:2 }}>{errors.Tel}</Text>
@@ -178,6 +181,7 @@ function Perfil ({ navigation, route }){
                         onChangeText={handleChange('Cep')}
                         onBlur={handleBlur('Cep')}
                         value={values.Cep} 
+                        maxLength={45}
                     />
 
                     <TextInput 
@@ -187,7 +191,8 @@ function Perfil ({ navigation, route }){
                         keyboardType="numeric"
                         onChangeText={handleChange('Numero')}
                         onBlur={handleBlur('Numero')}
-                        value={values.Numero}     
+                        value={values.Numero}    
+                        maxLength={45} 
                     />
                 </View>
 
@@ -208,6 +213,7 @@ function Perfil ({ navigation, route }){
                     onChangeText={handleChange('Rua')}
                     onBlur={handleBlur('Rua')}
                     value={values.Rua} 
+                    maxLength={45}
                 />
                 {errors.Rua &&
                     <Text style={{ fontSize: 15, color: 'red', marginHorizontal: 30, marginVertical:2 }}>{errors.Rua}</Text>
@@ -220,7 +226,8 @@ function Perfil ({ navigation, route }){
                     keyboardType="default"
                     onChangeText={handleChange('Bairro')}
                     onBlur={handleBlur('Bairro')}
-                    value={values.Bairro} 
+                    value={values.Bairro}
+                    maxLength={45} 
                 />
                 {errors.Bairro &&
                     <Text style={{ fontSize: 15, color: 'red', marginHorizontal: 30, marginVertical:2 }}>{errors.Bairro}</Text>
@@ -233,7 +240,8 @@ function Perfil ({ navigation, route }){
                     keyboardType="default"
                     onChangeText={handleChange('Cidade')}
                     onBlur={handleBlur('Cidade')}
-                    value={values.Cidade} 
+                    value={values.Cidade}
+                    maxLength={45} 
                 />
                 {errors.Cidade &&
                     <Text style={{ fontSize: 15, color: 'red', marginHorizontal: 30, marginVertical:2 }}>{errors.Cidade}</Text>
@@ -247,6 +255,7 @@ function Perfil ({ navigation, route }){
                     onChangeText={handleChange('Estado')}
                     onBlur={handleBlur('Estado')}
                     value={values.Estado} 
+                    maxLength={45}
                 />
                 {errors.Estado &&
                     <Text style={{ fontSize: 15, color: 'red', marginHorizontal: 30, marginVertical:2 }}>{errors.Estado}</Text>
@@ -273,6 +282,7 @@ function Perfil ({ navigation, route }){
                     onBlur={handleBlur('Senha')}
                     value={values.Senha}   
                     editable={editarSenha} 
+                    maxLength={45}
                 />
                 {errors.Senha &&
                     <Text style={{ fontSize: 15, color: 'red', marginHorizontal: 30, marginVertical:2 }}>{errors.Senha}</Text>
@@ -288,6 +298,7 @@ function Perfil ({ navigation, route }){
                     onBlur={handleBlur('ConfSenha')}
                     value={values.ConfSenha} 
                     editable={editarSenha} 
+                    maxLength={45}
                 />
                 {errors.ConfSenha &&
                     <Text style={{ fontSize: 15, color: 'red', marginHorizontal: 30, marginVertical:2 }}>{errors.ConfSenha}</Text>
