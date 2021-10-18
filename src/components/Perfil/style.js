@@ -42,7 +42,7 @@ const styles = StyleSheet.create({
         fontSize: 18,
     },
     text:{
-        marginHorizontal: 30,
+        marginHorizontal: 15,
         fontSize: 20,
         marginTop:10
     } 

@@ -1,17 +1,16 @@
 import React, {useState, useEffect} from "react";
-import {View,TextInput, Text, ScrollView, TouchableOpacity, Alert} from 'react-native'
+import {View,TextInput, Text, ScrollView, TouchableOpacity, Alert, Switch} from 'react-native'
 import CuidadorController from "../../../controller/CuidadorController";
 import asyncStorage from "../../../services/asyncStorage";
 
-import Cuidador from "../../../database/Cuidador";
-
 import Titulo from '../Titulo'
 import styles from './style'
-import Endereco from "../../../database/Endereco";
-import Telefone from "../../../database/Telefone";
 
 function Perfil ({ navigation, route }){
     
+    const [editarSenha, setEditarSenha] = useState(false);
+    const [isEnabled, setIsEnabled] = useState(false);
+
     const [Nome, setNome]            = useState('');
     const [Cpf, setCpf]              = useState('');
     const [Email, setEmail]          = useState('');
@@ -57,6 +56,11 @@ function Perfil ({ navigation, route }){
     function handleEstadoChange(Estado){ setEstado(Estado); } 
     function handleTelefoneChange(Tel){ setTelefone(Tel); } 
 
+    const toggleSwitch = () => {
+        setIsEnabled(previousState => !previousState)
+        setEditarSenha(previousState => !previousState)
+    }
+
     function handleButtonPress(){ 
         
         if(Nome === '' || Cpf === '' || Email === '' || Cep === '' || Numero === '' || Rua === '' || Bairro === '' || Cidade === '' ||  Estado === '' || Tel === ''){
@@ -65,7 +69,9 @@ function Perfil ({ navigation, route }){
             Alert.alert("Senhas não coincidem", "Assegure-se de que os campos Senha e Confirmar senha são idênticos!");
         }
         else {
-            CuidadorController.update({Endereco_Id,Cep,Numero,Rua,Bairro,Cidade,Estado,Telefone_Id,Tel,Cpf,Nome,Email,Senha})
+            CuidadorController.update({Endereco_Id,Cep,Numero,Rua,Bairro,Cidade,Estado,Telefone_Id,Tel,Cpf,Nome,Email,Senha, isEnable: isEnabled})
+        
+            console.info({Endereco_Id,Cep,Numero,Rua,Bairro,Cidade,Estado,Telefone_Id,Tel,Cpf,Nome,Email,Senha, isEnable: isEnabled})
             Alert.alert(
                 "Edição realizada com Sucesso", 
                 "Edição Realizada com sucesso!",
@@ -119,9 +125,19 @@ function Perfil ({ navigation, route }){
             <TextInput style={styles.input} placeholder="Cidade" keyboardType="default" onChangeText={handleCidadeChange} value={Cidade}/>
             <TextInput style={styles.input} placeholder="Estado" keyboardType="default" onChangeText={handleEstadoChange} value={Estado}/>
 
-            <Text style={styles.text}>Alterar Senha</Text>
-            <TextInput style={styles.input} placeholder="Senha" keyboardType="default" onChangeText={handleSenhaChange}/>
-            <TextInput style={styles.input} placeholder="Confirmar Senha" keyboardType="default" onChangeText={handleConfSenhaChange}/> 
+            <View style={styles.divDirection}>
+                <Text style={styles.text}>Alterar Senha</Text>
+                <Switch
+                trackColor={{ false: "#767577", true: "#81b0ff" }}
+                    thumbColor={isEnabled ? "#f5dd4b" : "#f4f3f4"}
+                    ios_backgroundColor="#3e3e3e"
+                    onValueChange={toggleSwitch}
+                    value={isEnabled}
+                />
+            </View>
+
+            <TextInput style={styles.input} placeholder="Senha" keyboardType="default" onChangeText={handleSenhaChange} editable={editarSenha}/>
+            <TextInput style={styles.input} placeholder="Confirmar Senha" keyboardType="default" onChangeText={handleConfSenhaChange} editable={editarSenha}/> 
 
             <View style={styles.divDirection}>
                 <TouchableOpacity style={styles.button} onPress={handleButtonPress}>

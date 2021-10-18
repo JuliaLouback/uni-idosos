@@ -32,18 +32,35 @@ const update = (obj) => {
   return new Promise((resolve, reject) => {
     db.transaction((tx) => {
       //comando SQL modificável
-      tx.executeSql(
-        "UPDATE Cuidador SET Nome=?, Email=? WHERE Cpf=?;",
-        [obj.Nome, obj.Email,obj.Cpf],
-        //-----------------------
-        (_, { rowsAffected }) => {
-          if (rowsAffected > 0) {
+      console.info(obj.isEnable)
+      if(obj.isEnable){
         
-          resolve(rowsAffected);}
-          else reject("Error updating obj: id=" + id); // nenhum registro alterado
-        },
-        (_, error) => reject(error) // erro interno em tx.executeSql
-      );
+        tx.executeSql(
+          "UPDATE Cuidador SET Nome=?, Email=?, Senha=? WHERE Cpf=?;",
+          [obj.Nome, obj.Email,obj.Senha,obj.Cpf],
+          //-----------------------
+          (_, { rowsAffected }) => {
+            if (rowsAffected > 0) {
+          
+            resolve(rowsAffected);}
+            else reject("Error updating obj: id=" + id); // nenhum registro alterado
+          },
+          (_, error) => reject(error) // erro interno em tx.executeSql
+        );
+      } else {
+        tx.executeSql(
+          "UPDATE Cuidador SET Nome=?, Email=? WHERE Cpf=?;",
+          [obj.Nome, obj.Email,obj.Cpf],
+          //-----------------------
+          (_, { rowsAffected }) => {
+            if (rowsAffected > 0) {
+          
+            resolve(rowsAffected);}
+            else reject("Error updating obj: id=" + id); // nenhum registro alterado
+          },
+          (_, error) => reject(error) // erro interno em tx.executeSql
+        );
+      } 
     });
   });
 };

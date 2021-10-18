@@ -65,7 +65,8 @@ const update = (obj) => {
         Endereco: { ...endereco},
         Telefone: {...telefone},
         Endereco_Id: obj.Endereco_Id,
-        Telefone_Id: obj.Telefone_Id
+        Telefone_Id: obj.Telefone_Id,
+        isEnable: obj.isEnable
     }
     
     Endereco.update(endereco).then(result => {  
