@@ -14,6 +14,9 @@ const styles = StyleSheet.create({
         borderColor: '#D1D1D6',
         borderRadius: 10, 
     },
+    spinnerTextStyle: {
+        color: '#FFF'
+    },
     inputAddress: {
         height: 40,
         margin: 12,

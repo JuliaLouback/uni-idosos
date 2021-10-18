@@ -4,14 +4,16 @@ import { Formik } from 'formik'
 import CuidadorController from "../../../controller/CuidadorController";
 import asyncStorage from "../../../services/asyncStorage";
 import validations from "../../validations/validations";
+import Spinner from 'react-native-loading-spinner-overlay';
 
 import Titulo from '../Titulo'
 import styles from './style'
 
-function Perfil ({ navigation, route }){
+function Perfil ({ navigation, route }) {
     
     const [editarSenha, setEditarSenha] = useState(false);
     const [isEnabled, setIsEnabled] = useState(false);
+    const [isLoading, setLoading] = useState(true);
 
     const [Cpf, setCpf]  = useState('');
     const [Endereco_Id, setEnderecoId]  = useState('');
@@ -79,6 +81,11 @@ function Perfil ({ navigation, route }){
     return(
         <>
         <ScrollView style={styles.container}>
+        <Spinner
+          visible={isLoading}
+          textContent={'Carregando...'}
+          textStyle={styles.spinnerTextStyle}
+        />
         <Titulo titulo="Perfil Cuidador"></Titulo>
             <Formik
                     validationSchema={validations.editarValidationSchema}
@@ -109,7 +116,8 @@ function Perfil ({ navigation, route }){
                             setFieldValue("Tel",result.Telefone.Telefone.toString());
                             setCpf(result.Cpf.toString());
                             setEnderecoId(result.Endereco_Id);
-                            setTelefoneId(result.Telefone_Id);     
+                            setTelefoneId(result.Telefone_Id);   
+                            setLoading(false);  
                         })
                     }, [route]);
 
