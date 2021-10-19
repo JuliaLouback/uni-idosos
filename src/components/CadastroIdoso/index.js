@@ -8,6 +8,7 @@ import validations from "../../validations/validations";
 
 import TituloIdoso from '../TituloIdoso'
 import styles from './style'
+import Cuidador from "../../../database/Cuidador";
 
 function CadastroIdoso ({navigation}){
 
@@ -18,23 +19,11 @@ function CadastroIdoso ({navigation}){
         }
         else {
             console.log(cpf.isValid(values.Cpf))
-            if(!cpf.isValid(values.Cpf)){
+            if(!cpf.isValid(values.Cpf) || !cpf.isValid(values.Cuidador_Cpf) ){
                 Alert.alert("CPF Inválido", "Entre com CPF Válido.")
-            }
+            } 
             else {
-                IdosoController.create(values);
-                Alert.alert(
-                    "Cadastro Efetuado",
-                    "Seu cadastro foi realizado com sucesso! Realize o login.",
-                    [
-                        {
-                        text: "Ok",
-                        onPress: () => {
-                            navigation.navigate("LoginIdoso");
-                        },
-                        },   
-                    ]
-                );
+                IdosoController.create(values, navigation)
             }
         }
     }

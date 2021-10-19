@@ -5,6 +5,7 @@ import IdosoController from "../../../controller/IdosoController";
 import asyncStorage from "../../../services/asyncStorage";
 import validations from "../../validations/validations";
 import Spinner from 'react-native-loading-spinner-overlay';
+import { cpf } from 'cpf-cnpj-validator'; 
 
 import TituloIdoso from '../TituloIdoso';
 import styles from './style'
@@ -27,23 +28,11 @@ function PerfilIdoso ({ navigation, route }) {
     function editarUser(values){ 
         
         if(values.Senha !== values.ConfSenha) Alert.alert("Senhas não coincidem", "Assegure-se de que os campos Senha e Confirmar senha são idênticos!")
+        else if(!cpf.isValid(values.Cuidador_Cpf))  Alert.alert("CPF Inválido", "Entre com CPF Válido.")
         else {
             console.info({...values, Endereco_Id, Telefone_Id, isEnable: isEnabled})
 
-            IdosoController.update({...values, Endereco_Id, Telefone_Id, isEnable: isEnabled})
-           
-            Alert.alert(
-                "Edição realizada com Sucesso", 
-                "Edição Realizada com sucesso!",
-                [
-                    {
-                      text: "Ok",
-                      onPress: () => {
-                          navigation.navigate("HomeIdoso", values.Nome) 
-                      },
-                    },   
-                ]
-            )
+            IdosoController.update({...values, Endereco_Id, Telefone_Id, isEnable: isEnabled}, navigation)
         }
     }
 
@@ -55,7 +44,7 @@ function PerfilIdoso ({ navigation, route }) {
               {
                 text: "Sim",
                 onPress: () => {
-                    CuidadorController.remove({Cpf, Endereco_Id, Telefone_Id})
+                    IdosoController.remove({Cpf, Endereco_Id, Telefone_Id})
                     Alert.alert(
                         "Exclusão realizada com Sucesso",
                         "Exclusão realizada com sucesso!",

@@ -3,7 +3,6 @@ import { Alert } from 'react-native';
 import db from "./SQLiteDatabase";
 
 db.transaction((tx) => {
-  //tx.executeSql("DROP TABLE Cuidador;");
   tx.executeSql(
     "CREATE TABLE IF NOT EXISTS Idoso (Cpf TEXT PRIMARY KEY, Nome TEXT, Email TEXT, Senha TEXT, Telefone_Id INT, Endereco_Id INT, Cuidador_Cpf TEXT);"
   );

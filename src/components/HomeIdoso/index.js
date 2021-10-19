@@ -20,7 +20,7 @@ function HomeIdoso ({ navigation, route }){
             <ScrollView style={styles.container}>
                 <TituloIdoso titulo="Home"></TituloIdoso>
                 <View style={styles.changeDirection}>
-                    <Text style={styles.nomeUsuario}>Olá, {route.params ? route.params : nomeUsuario}</Text>
+                    <Text style={styles.nomeUsuario}>Olá, {route.params ? route.params.split(" ")[0] : nomeUsuario.split(" ")[0]}</Text>
                     <TouchableOpacity onPress={() => navigation.navigate("PerfilIdoso")} style={styles.btnPerfil}>
                         <Text style={styles.txtPerfil}>Perfil</Text>
                     </TouchableOpacity>

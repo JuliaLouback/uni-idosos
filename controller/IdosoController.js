@@ -5,8 +5,9 @@ import Idoso from "../database/Idoso";
 import { Alert } from "react-native";
 import asyncStorage from "../services/asyncStorage";
 import base64 from 'react-native-base64'
+import Cuidador from "../database/Cuidador";
 
-const create = (obj) => {
+const create = (obj, navigation) => {
 
     const endereco = {
         Cep: obj.Cep,
@@ -27,23 +28,40 @@ const create = (obj) => {
         Endereco: ''
     }
     
-    Endereco.create(endereco).then(endereco_id => {
-       
-        Telefone.create(obj.Tel).then(telefone_id => {
-           
-            idoso.Endereco = {Endereco_Id: endereco_id, ...endereco }
-            idoso.Telefone = {Telefone_Id: telefone_id, Telefone: obj.Tel}
+    Cuidador.findByCpf(idoso.Cuidador_Cpf).then(resultado => {
 
-            Idoso.create(idoso).then(result => {  
-                console.info(idoso)
-                //asyncStorage.storeData("User", JSON.stringify(cuidador))
-            })
+        if(resultado === true){
+            Endereco.create(endereco).then(endereco_id => {
             
-        })
-    });
+                Telefone.create(obj.Tel).then(telefone_id => {
+                
+                    idoso.Endereco = {Endereco_Id: endereco_id, ...endereco }
+                    idoso.Telefone = {Telefone_Id: telefone_id, Telefone: obj.Tel}
+
+                    Idoso.create(idoso).then(result => {  
+                        console.info(idoso)
+                        Alert.alert(
+                            "Cadastro Efetuado",
+                            "Seu cadastro foi realizado com sucesso! Realize o login.",
+                            [
+                                {
+                                text: "Ok",
+                                onPress: () => {
+                                    navigation.navigate("LoginIdoso");
+                                },
+                                },   
+                            ]
+                        );
+                        //asyncStorage.storeData("User", JSON.stringify(cuidador))
+                    })
+                    
+                })
+            });
+        } 
+    })
 }
 
-const update = (obj) => {
+const update = (obj, navigation) => {
 
     const endereco = {
         Endereco_Id: obj.Endereco_Id,
@@ -73,12 +91,30 @@ const update = (obj) => {
         Cuidador_Cpf: obj.Cuidador_Cpf
     }
     
-    Endereco.update(endereco).then(result => {  
-        Telefone.update(telefone).then(result => {
-            Idoso.update(idoso).then(result => {
-                asyncStorage.storeData("User", JSON.stringify(idoso))
+    Cuidador.findByCpf(idoso.Cuidador_Cpf).then(resultado => {
+
+        if(resultado === true){
+            Endereco.update(endereco).then(result => {  
+                Telefone.update(telefone).then(result => {
+                    Idoso.update(idoso).then(result => {
+                        asyncStorage.storeData("User", JSON.stringify(idoso))
+
+                        Alert.alert(
+                            "Edição realizada com Sucesso", 
+                            "Edição Realizada com sucesso!",
+                            [
+                                {
+                                    text: "Ok",
+                                    onPress: () => {
+                                        navigation.navigate("HomeIdoso", obj.Nome) 
+                                    },
+                                },   
+                            ]
+                        );
+                    })
+                })    
             })
-        })    
+        }
     })
            
 }

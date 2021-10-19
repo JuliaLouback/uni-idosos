@@ -130,5 +130,28 @@ const findByUserCpf = (cpf) => {
   });
 };
 
+const findByCpf = (cpf) => {
+  return new Promise((resolve, reject) => {
+    db.transaction((tx) => {
+      //comando SQL modificável
+      tx.executeSql(
+        "SELECT * FROM Cuidador WHERE Cpf=?;",
+        [cpf],
+        //-----------------------
+        (_, { rows }) => {
+       
+          if (rows.length > 0) {
+            //Alert.alert(JSON.stringify(rows.item(0)))
+            resolve(true)
+          }
+          else {
+            Alert.alert("Cuidador inválido", "Cuidador não cadastrado!")} // nenhum registro encontrado
+        },
+        (_, error) => reject(error) // erro interno em tx.executeSql
+      );
+    });
+  });
+};
 
-export default { create, update, remove, findByUser, findByUserCpf };
+
+export default { create, update, remove, findByUser, findByUserCpf, findByCpf };
