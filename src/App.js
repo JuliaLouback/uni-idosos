@@ -8,6 +8,10 @@ import Perfil from './components/Perfil';
 import PreLogin from './components/PreLogin';
 import LoginCuidador from './components/LoginCuidador';
 import asyncStorage from "../services/asyncStorage";
+import CadastroIdoso from './components/CadastroIdoso';
+import LoginIdoso from './components/LoginIdoso';
+import HomeIdoso from './components/HomeIdoso';
+import PerfilIdoso from './components/PerfilIdoso';
 
 const Stack = createNativeStackNavigator();
 
@@ -20,7 +24,7 @@ function logout(navigation){
         text: "Sim",
         onPress: () => {
           asyncStorage.removeData("User")
-          navigation.navigate("LoginCuidador")  
+          navigation.navigate("PreLogin")  
         },
       },
       {
@@ -63,6 +67,20 @@ function App(){
           }}
         />
         <Stack.Screen
+          name="LoginIdoso"
+          component={LoginIdoso}
+          options={{ 
+            title: 'Login',
+            headerStyle: {
+              backgroundColor: '#649AFC',
+            },
+            headerTintColor: '#fff',
+            headerTitleStyle: {
+              fontWeight: 'bold',
+            },
+          }}
+        />
+        <Stack.Screen
           name="Home"
           component={HomeCuidador}
           options={({ navigation, route }) => ({ 
@@ -70,6 +88,31 @@ function App(){
             headerTitle: () => null,
             headerStyle: {
               backgroundColor: '#FB7366',
+            },
+            headerTintColor: '#fff',
+            headerTitleStyle: {
+              fontWeight: 'bold',
+            },
+            headerRight: () => (
+              <View>
+                <TouchableOpacity onPress={() => logout(navigation)}>
+                  <Image
+                    source={require("./img/logout.png")}
+                  />
+                </TouchableOpacity>
+              </View>
+            ),
+            headerLeft: ()=> null, 
+          })}
+        />
+         <Stack.Screen
+          name="HomeIdoso"
+          component={HomeIdoso}
+          options={({ navigation, route }) => ({ 
+            title: 'Home',
+            headerTitle: () => null,
+            headerStyle: {
+              backgroundColor: '#649AFC',
             },
             headerTintColor: '#fff',
             headerTitleStyle: {
@@ -102,12 +145,50 @@ function App(){
           }}
         />
          <Stack.Screen
+          name="CadastroIdoso"
+          component={CadastroIdoso}
+          options={{ 
+            title: 'Cadastro Idoso',
+            headerStyle: {
+              backgroundColor: '#649AFC',
+            },
+            headerTintColor: '#fff',
+            headerTitleStyle: {
+              fontWeight: 'bold',
+            },
+          }}
+        />
+         <Stack.Screen
           name="Perfil"
           component={Perfil}
           options={({ navigation, route }) => ({ 
             title: 'Perfil',
             headerStyle: {
               backgroundColor: '#FB7366',
+            },
+            headerTintColor: '#fff',
+            headerTitleStyle: {
+              fontWeight: 'bold',
+            },
+            headerRight: () => (
+              <View>
+                <TouchableOpacity onPress={() => logout(navigation)}>
+                  <Image
+                    source={require("./img/logout.png")}
+                  />
+                </TouchableOpacity>
+              </View>
+            ),
+            headerLeft: ()=> null, 
+          })}
+        />
+         <Stack.Screen
+          name="PerfilIdoso"
+          component={PerfilIdoso}
+          options={({ navigation, route }) => ({ 
+            title: 'Perfil',
+            headerStyle: {
+              backgroundColor: '#649AFC',
             },
             headerTintColor: '#fff',
             headerTitleStyle: {

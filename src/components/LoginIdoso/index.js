@@ -7,18 +7,18 @@ import LoginController from "../../../controller/LoginController";
 import validations from "../../validations/validations";
 import styles from './style'
 
-function LoginCuidador ({navigation}){
+function LoginIdoso ({navigation}){
 
     return(
         <ScrollView style={styles.container}>
-            <Image source={require('../../img/backgroundLogin.png')} style={styles.image}/>
-            <Text style={styles.text}>Olá Cuidador (a)</Text>
+            <Image source={require('../../img/backgroundLoginIdoso.png')} style={styles.image}/>
+            <Text style={styles.text}>Olá Idoso (a)</Text>
             <Text style={styles.subtitle}>efetue seu login para um melhor acompanhamento</Text>
 
             <Formik
                 validationSchema={validations.loginValidationSchema}
                 initialValues={{ email: '', senha: '' }}
-                onSubmit={values =>  LoginController.findByUser(values.email, values.senha, navigation) }
+                onSubmit={values =>  LoginController.findByUserIdoso(values.email, values.senha, navigation) }
             >
             {({
                 handleChange,
@@ -64,17 +64,17 @@ function LoginCuidador ({navigation}){
             )}
             </Formik>
             <View style={{flexDirection: 'row', alignItems: 'center', marginHorizontal: 30, marginVertical: 10}}>
-                <View style={{flex: 1, height: 1, backgroundColor: "#FF8383"}} />
+                <View style={{flex: 1, height: 1, backgroundColor: "#649AFC"}} />
                     <View>
-                        <Text style={{width: 50, textAlign: 'center', fontSize: 20, color: "#FF8383"}}>OU</Text>
+                        <Text style={{width: 50, textAlign: 'center', fontSize: 20, color: "#649AFC"}}>OU</Text>
                     </View>
-                <View style={{flex: 1, height: 1, backgroundColor: "#FF8383"}} />
+                <View style={{flex: 1, height: 1, backgroundColor: "#649AFC"}} />
             </View>
-            <TouchableOpacity style={styles.buttonCadastro}  onPress={() => navigation.navigate("Cadastro")}>
+            <TouchableOpacity style={styles.buttonCadastro}  onPress={() => navigation.navigate("CadastroIdoso")}>
                 <Text style={styles.textButtonCadastro}>Registre-se</Text>
             </TouchableOpacity>
         </ScrollView>
     );
 }
 
-export default LoginCuidador;
+export default LoginIdoso;

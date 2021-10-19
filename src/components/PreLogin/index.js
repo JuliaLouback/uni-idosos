@@ -9,7 +9,7 @@ function PreLogin ({navigation}){
             <Text style={styles.txtBemVindo}>Bem-vindo (a)</Text>
             <Text style={styles.txtPerfil}>Escolha seu Perfil</Text>
             
-            <TouchableOpacity style={styles.button} onPress={() => navigation.navigate("Cadastro")}>
+            <TouchableOpacity style={styles.button} onPress={() => navigation.navigate("LoginIdoso")}>
                 <Text style={styles.textButton}>Idoso</Text>
             </TouchableOpacity>
             
