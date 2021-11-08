@@ -8,10 +8,15 @@ import styles from './style'
 function HomeIdoso ({ navigation, route }){
 
     const [nomeUsuario, setNomeUsuario] = useState('')
+    const [user, setUser] = useState('')
+
 
     useEffect(() => {
         asyncStorage.getData("User").then(result => {
-            if(result != null) setNomeUsuario(result.Nome)
+            if(result != null) { 
+                setNomeUsuario(result.Nome)
+                setUser(result)
+            }
         })
     })
 
@@ -26,7 +31,7 @@ function HomeIdoso ({ navigation, route }){
                     </TouchableOpacity>
                 </View>
                 <View style={styles.changeDirection}>
-                    <TouchableOpacity onPress={() => navigation.navigate("Cadastro")} style={styles.btnContatos}>
+                    <TouchableOpacity onPress={() => navigation.navigate("ListaContatosEmergencia", {Cpf: user.Cpf})} style={styles.btnContatos}>
                         <Image source={require('../../img/sos.png')}/>
                         <Text style={styles.txtRowOne}>Contatos</Text>
                     </TouchableOpacity>

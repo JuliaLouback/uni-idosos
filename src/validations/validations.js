@@ -206,4 +206,18 @@ const editarIdosoValidationSchema = yup.object().shape({
     .required('CPF é obrigatório'),
 })
 
-export default {loginValidationSchema, cadastroValidationSchema,editarValidationSchema, cadastroIdosoValidationSchema,editarIdosoValidationSchema}
+const cadastroContatosEmergenciaValidationSchema = yup.object().shape({
+  Nome: yup
+    .string()
+    .required('Nome é obrigatório'),
+  Parentesco: yup
+  .string()
+  .required('Parentesco é obrigatório'),
+  Tel: yup
+    .string()
+    .matches(phoneRegExp, 'Telefone não é válido')
+    .required('Telefone é obrigatório'),
+  
+})
+
+export default {loginValidationSchema, cadastroValidationSchema,editarValidationSchema, cadastroIdosoValidationSchema,editarIdosoValidationSchema,cadastroContatosEmergenciaValidationSchema}

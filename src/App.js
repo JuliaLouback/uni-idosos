@@ -12,6 +12,9 @@ import CadastroIdoso from './components/CadastroIdoso';
 import LoginIdoso from './components/LoginIdoso';
 import HomeIdoso from './components/HomeIdoso';
 import PerfilIdoso from './components/PerfilIdoso';
+import CadastroContatosEmergencia from './components/ContatosEmergencia/Cadastro';
+import ListaContatosEmergencia from './components/ContatosEmergencia/Lista';
+import EditarContatosEmergencia from './components/ContatosEmergencia/Editar';
 
 const Stack = createNativeStackNavigator();
 
@@ -189,6 +192,78 @@ function App(){
             title: 'Perfil',
             headerStyle: {
               backgroundColor: '#649AFC',
+            },
+            headerTintColor: '#fff',
+            headerTitleStyle: {
+              fontWeight: 'bold',
+            },
+            headerRight: () => (
+              <View>
+                <TouchableOpacity onPress={() => logout(navigation)}>
+                  <Image
+                    source={require("./img/logout.png")}
+                  />
+                </TouchableOpacity>
+              </View>
+            ),
+            headerLeft: ()=> null, 
+          })}
+        />
+        <Stack.Screen
+          name="CadastroContatosEmergencia"
+          component={CadastroContatosEmergencia}
+          options={({ navigation, route }) => ({ 
+            title: 'Contatos de Emergência',
+            headerStyle: {
+              backgroundColor: '#FF2D55',
+            },
+            headerTintColor: '#fff',
+            headerTitleStyle: {
+              fontWeight: 'bold',
+            },
+            headerRight: () => (
+              <View>
+                <TouchableOpacity onPress={() => logout(navigation)}>
+                  <Image
+                    source={require("./img/logout.png")}
+                  />
+                </TouchableOpacity>
+              </View>
+            ),
+            headerLeft: ()=> null, 
+          })}
+        />
+        <Stack.Screen
+          name="ListaContatosEmergencia"
+          component={ListaContatosEmergencia}
+          options={({ navigation, route }) => ({ 
+            title: 'Contatos de Emergência',
+            headerStyle: {
+              backgroundColor: '#FF2D55',
+            },
+            headerTintColor: '#fff',
+            headerTitleStyle: {
+              fontWeight: 'bold',
+            },
+            headerRight: () => (
+              <View>
+                <TouchableOpacity onPress={() => logout(navigation)}>
+                  <Image
+                    source={require("./img/logout.png")}
+                  />
+                </TouchableOpacity>
+              </View>
+            ),
+            headerLeft: ()=> null, 
+          })}
+        />
+         <Stack.Screen
+          name="EditarContatosEmergencia"
+          component={EditarContatosEmergencia}
+          options={({ navigation, route }) => ({ 
+            title: 'Contatos de Emergência',
+            headerStyle: {
+              backgroundColor: '#FF2D55',
             },
             headerTintColor: '#fff',
             headerTitleStyle: {
