@@ -9,7 +9,7 @@ import {Alert} from 'react-native'
   });
 
 const create = (obj) => {
-    console.info("herrr")
+
     return new Promise((resolve, reject) => {
       db.transaction((tx) => {
         tx.executeSql(
@@ -19,7 +19,6 @@ const create = (obj) => {
           (_, { rowsAffected, insertId }) => {
             if (rowsAffected > 0) {
               resolve(insertId)
-              console.info("deu certo emergencia")
             }
             else reject("Error inserting obj: " + JSON.stringify(obj)); // insert falhou
           },
@@ -30,17 +29,20 @@ const create = (obj) => {
 };
 
 const update = (obj) => {
-      
+  console.info(obj)
   return new Promise((resolve, reject) => {
     db.transaction((tx) => {
       //comando SQL modificável
       tx.executeSql(
-        "UPDATE Contatos_emergencia SET Nome=?, Parentesco=?, Telefone_Id = ?, Idoso_Cpf = ? WHERE Id=?;",
-        [obj.Nome, obj.Parentesco, obj.Telefone_Id, obj.Idoso_Cpf, obj.Id],
+        "UPDATE Contatos_emergencia SET Nome=?,Parentesco=? WHERE Telefone_Id=?;",
+        [obj.Nome, obj.Parentesco,obj.Telefone_Id],
         //-----------------------
         (_, { rowsAffected }) => {
+
           if (rowsAffected > 0) resolve(rowsAffected);
-          else reject("Error updating obj: id=" + id); // nenhum registro alterado
+          else { 
+            //Alert.alert(obj.TelefoneId.toString())
+            reject("Error updating obj: id=" + id);} // nenhum registro alterado
         },
         (_, error) => reject(error) // erro interno em tx.executeSql
       );
@@ -73,12 +75,10 @@ const select = () => {
         "SELECT * FROM Contatos_emergencia ;",
         //-----------------------
         (_, { rows }) => {
-          console.info(rows)
           if (rows.length > 0) {
             var temp = [];
             for (let i = 0; i < rows.length; ++i){
               temp.push(results.rows.item(i));
-              console.warn("aqui")
             }
             resolve(temp)
           }

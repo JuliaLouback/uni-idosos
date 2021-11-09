@@ -26,7 +26,7 @@ const create = (obj, navigation) => {
     })
 }
 
-const update = (obj, navigation) => {
+const update = (obj) => {
 
     const telefone = {
         Telefone_Id: obj.Telefone_Id,
@@ -40,12 +40,10 @@ const update = (obj, navigation) => {
         Idoso_Cpf: obj.Idoso_Cpf,
         Id: obj.Id
     }
-
-    console.info(obj)
     
     Telefone.update(telefone).then(result => {
-        ContatosEmergencia.update(contatosEmergencia).then(result => {
-           
+        ContatosEmergencia.update(contatosEmergencia).then(resultado => {
+            
         })
     })     
 }
@@ -59,10 +57,4 @@ const remove = (obj) => {
     })
 }
 
-const select = () => {
-    ContatosEmergencia.select().then(cuidador => {
-       
-    })
-}
-
-export default { create, update, remove, select };
+export default { create, update, remove };

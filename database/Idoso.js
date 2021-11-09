@@ -129,5 +129,29 @@ const findByUserCpf = (cpf) => {
   });
 };
 
+const findByUserCuidadorCpf = (cpf) => {
+  return new Promise((resolve, reject) => {
+    db.transaction((tx) => {
+      //comando SQL modificável
+      tx.executeSql(
+        "SELECT * FROM Idoso WHERE Cuidador_Cpf=?;",
+        [cpf],
+        //-----------------------
+        (_, { rows }) => {
+       
+          if (rows.length > 0) {
+            //Alert.alert(JSON.stringify(rows.item(0)))
+            resolve(rows.item(0))
+          }
+          else {
+            reject("Obj not found: brand=" + brand);
+          Alert.alert("Erro")} // nenhum registro encontrado
+        },
+        (_, error) => reject(error) // erro interno em tx.executeSql
+      );
+    });
+  });
+};
 
-export default { create, update, remove, findByUser, findByUserCpf };
+
+export default { create, update, remove, findByUser, findByUserCpf, findByUserCuidadorCpf };

@@ -14,7 +14,7 @@ function EditarContatosEmergencia ({ navigation, route }) {
 
     function editarContatosEmergencia(values){ 
         
-        ContatosEmergenciaController.update({...values, Id:route.params.Id, Idoso_Cpf: route.params.Idoso_Cpf, Telefone_Id: route.params.Telefone_Id}, navigation)
+        ContatosEmergenciaController.update({...values, Id: route.params.Id, Idoso_Cpf: route.params.Idoso_Cpf, Telefone_Id: route.params.Telefone_Id})
         Alert.alert(
             "Edição Efetuada com sucesso",
             "Edição efetuada com sucesso!",
@@ -37,7 +37,7 @@ function EditarContatosEmergencia ({ navigation, route }) {
               {
                 text: "Sim",
                 onPress: () => {
-                    ContatosEmergenciaController.remove({Id: route.params.Id,Telefone_Id: route.params.Telefone_Id})
+                    ContatosEmergenciaController.remove({Id: route.params.Id, Telefone_Id: route.params.Telefone_Id})
                     Alert.alert(
                         "Exclusão realizada com Sucesso",
                         "Exclusão realizada com sucesso!",
@@ -69,10 +69,10 @@ function EditarContatosEmergencia ({ navigation, route }) {
         />
         <TituloVermelho titulo="Contatos de Emergência"></TituloVermelho>
             <Formik
-                    validationSchema={validations.cadastroContatosEmergenciaValidationSchema}
-                    initialValues={{ Nome: '', Parentesco: '', Tel: '' }}
-                    onSubmit={values =>  editarContatosEmergencia(values) }
-                >
+                validationSchema={validations.cadastroContatosEmergenciaValidationSchema}
+                initialValues={{ Nome: '', Parentesco: '', Tel: '' }}
+                onSubmit={values =>  editarContatosEmergencia(values) }
+            >
                 {({
                     handleChange,
                     handleBlur,

@@ -13,11 +13,21 @@ import styles from './style'
 
 function CadastroContatosEmergencia ({navigation, route}){
 
-    const [selectedValue, setSelectedValue] = useState("Selecione o Parentesco");
-
     function cadastroContatosEmergencia(values){ 
         values.Idoso_Cpf = route.params.Cpf
-        ContatosEmergenciaController.create(values, navigation)
+        ContatosEmergenciaController.create(values)
+        Alert.alert(
+            "Cadastro Efetuado com sucesso",
+            "Cadastro efetuado com sucesso!",
+            [
+                {
+                    text: "Ok",
+                    onPress: () => {
+                        navigation.navigate("ListaContatosEmergencia");
+                    },
+                },   
+            ]
+        );
     }
 
     return(
