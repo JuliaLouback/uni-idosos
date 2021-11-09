@@ -15,6 +15,9 @@ import PerfilIdoso from './components/PerfilIdoso';
 import CadastroContatosEmergencia from './components/ContatosEmergencia/Cadastro';
 import ListaContatosEmergencia from './components/ContatosEmergencia/Lista';
 import EditarContatosEmergencia from './components/ContatosEmergencia/Editar';
+import CadastroEventos from './components/Eventos/Cadastro';
+import ListaEventos from './components/Eventos/Lista';
+import EditarEventos from './components/Eventos/Editar';
 
 const Stack = createNativeStackNavigator();
 
@@ -257,13 +260,85 @@ function App(){
             headerLeft: ()=> null, 
           })}
         />
-         <Stack.Screen
+        <Stack.Screen
           name="EditarContatosEmergencia"
           component={EditarContatosEmergencia}
           options={({ navigation, route }) => ({ 
             title: 'Contatos de Emergência',
             headerStyle: {
               backgroundColor: '#FF2D55',
+            },
+            headerTintColor: '#fff',
+            headerTitleStyle: {
+              fontWeight: 'bold',
+            },
+            headerRight: () => (
+              <View>
+                <TouchableOpacity onPress={() => logout(navigation)}>
+                  <Image
+                    source={require("./img/logout.png")}
+                  />
+                </TouchableOpacity>
+              </View>
+            ),
+            headerLeft: ()=> null, 
+          })}
+        />
+        <Stack.Screen
+          name="CadastroEventos"
+          component={CadastroEventos}
+          options={({ navigation, route }) => ({ 
+            title: 'Eventos/Consultas',
+            headerStyle: {
+              backgroundColor: '#649AFC',
+            },
+            headerTintColor: '#fff',
+            headerTitleStyle: {
+              fontWeight: 'bold',
+            },
+            headerRight: () => (
+              <View>
+                <TouchableOpacity onPress={() => logout(navigation)}>
+                  <Image
+                    source={require("./img/logout.png")}
+                  />
+                </TouchableOpacity>
+              </View>
+            ),
+            headerLeft: ()=> null, 
+          })}
+        />
+        <Stack.Screen
+          name="ListaEventos"
+          component={ListaEventos}
+          options={({ navigation, route }) => ({ 
+            title: 'Eventos/Consultas',
+            headerStyle: {
+              backgroundColor: '#649AFC',
+            },
+            headerTintColor: '#fff',
+            headerTitleStyle: {
+              fontWeight: 'bold',
+            },
+            headerRight: () => (
+              <View>
+                <TouchableOpacity onPress={() => logout(navigation)}>
+                  <Image
+                    source={require("./img/logout.png")}
+                  />
+                </TouchableOpacity>
+              </View>
+            ),
+            headerLeft: ()=> null, 
+          })}
+        />
+        <Stack.Screen
+          name="EditarEventos"
+          component={EditarEventos}
+          options={({ navigation, route }) => ({ 
+            title: 'Eventos/Consultas',
+            headerStyle: {
+              backgroundColor: '#649AFC',
             },
             headerTintColor: '#fff',
             headerTitleStyle: {

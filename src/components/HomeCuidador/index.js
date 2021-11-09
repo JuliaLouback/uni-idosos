@@ -38,7 +38,7 @@ function HomeCuidador ({ navigation, route }){
                         <Image source={require('../../img/pill.png')}/>
                         <Text style={styles.txtRowOne}>Remédios</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity onPress={() => navigation.navigate("Teste")} style={styles.btnEventos}>
+                    <TouchableOpacity onPress={() => navigation.navigate("ListaEventos", {Cpf: user.Cpf})} style={styles.btnEventos}>
                         <Image source={require('../../img/calendario.png')}/>
                         <Text style={styles.txtRowOne}>Eventos</Text>
                     </TouchableOpacity>

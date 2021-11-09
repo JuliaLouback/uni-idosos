@@ -220,4 +220,13 @@ const cadastroContatosEmergenciaValidationSchema = yup.object().shape({
   
 })
 
-export default {loginValidationSchema, cadastroValidationSchema,editarValidationSchema, cadastroIdosoValidationSchema,editarIdosoValidationSchema,cadastroContatosEmergenciaValidationSchema}
+const cadastroEventosValidationSchema = yup.object().shape({
+  Titulo: yup
+    .string()
+    .required('Título é obrigatório'),
+  Descricao: yup
+  .string()
+  .required('Descrição é obrigatório'),
+})
+
+export default {loginValidationSchema, cadastroValidationSchema,editarValidationSchema, cadastroIdosoValidationSchema,editarIdosoValidationSchema,cadastroContatosEmergenciaValidationSchema, cadastroEventosValidationSchema}

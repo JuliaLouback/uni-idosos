@@ -1,25 +1,23 @@
 import React, { useState, useEffect } from 'react';
-import { View, FlatList,Text, TouchableOpacity, Image, Linking } from 'react-native';
-import TituloVermelho from '../../TituloVermelho'
-import ButtonQuadrado from '../../Buttons/ButtonQuadrado';
+import { View, FlatList,Text, TouchableOpacity, Image } from 'react-native';
+import TituloIdoso from '../../TituloIdoso'
 import styles from './style'
-import ContatosEmergencia from '../../../../database/ContatosEmergencia';
 import db from "../../../../database/SQLiteDatabase";
 import { useIsFocused } from '@react-navigation/native';
+import Eventos from '../../../../database/Eventos';
 
-function ListaContatosEmergencia({ navigation, route }){
+function ListaEventos({ navigation, route }){
 
     const [items, setItems] = useState([]);
     const [empty, setEmpty] = useState([]);
     const [idoso, setIdoso] = useState('');
     const isFocused = useIsFocused('');
-    
+
     useEffect(() => {
 
       let isMounted = true;
       
       if(isMounted){
-
         const unsubscribe = navigation.addListener('focus', () => {
           db.transaction((tx) => {
             tx.executeSql(
@@ -35,14 +33,14 @@ function ListaContatosEmergencia({ navigation, route }){
 
           db.transaction((tx) => {
             tx.executeSql(
-              'SELECT * FROM Contatos_emergencia INNER JOIN Telefone ON Contatos_emergencia.Telefone_Id = Telefone.Id WHERE Idoso_Cpf = (Select Cpf from Idoso WHERE Cuidador_Cpf = ' + route.params.Cpf +')' ,
+              'SELECT * FROM Eventos WHERE Idoso_Cpf = (Select Cpf from Idoso WHERE Cuidador_Cpf = ' + route.params.Cpf + ')  ORDER BY Data asc' ,
               [],
               (tx, results) => {
                 var temp = [];
                 for (let i = 0; i < results.rows.length; ++i){
                   temp.push(results.rows.item(i));
                 }
-                  setItems(temp);
+                setItems(temp);
                 
                 if (results.rows.length >= 1) {
                   setEmpty(false);
@@ -54,28 +52,51 @@ function ListaContatosEmergencia({ navigation, route }){
           });
         });
       }
-      
-      return () => { isMounted = false }
+
+      return () => { isMounted = false }; // cleanup toggles value, if unmounted
     },[])
 
+    function getHours(item){
+      if(item != undefined){
+        let horario = item.split(" ")[1].split(":")
+        return horario[0]+":"+horario[1]
+      }
+  
+      return ""
+    }
+
+    function getDate(item){
+      if(item != undefined){
+        let data = item.split(" ")[0].split("-")
+        var months = ['Jan','Fev','Mar','Abr','Maio','Jun','Jul','Ago','Set','Out','Nov','Dez'];
+
+        return data[2]+"  "+months[data[1]-1]
+      }
+  
+      return ""
+    }
+
     return <View style={styles.container}>
-            <TituloVermelho titulo="Contatos de Emergência"></TituloVermelho>
+            <TituloIdoso titulo="Eventos/Consultas"></TituloIdoso>
             <View style={styles.viewButton}>
-              <TouchableOpacity onPress={() => navigation.navigate("CadastroContatosEmergencia", {Cpf: idoso.Cpf})} style={styles.btnCadastrar}>
+              <TouchableOpacity onPress={() => navigation.navigate("CadastroEventos", {Cpf: idoso.Cpf})} style={styles.btnCadastrar}>
                 <Text style={styles.txtCadastrar}>Cadastrar</Text>
               </TouchableOpacity>
             </View>
             <View style={styles.viewList}>
                 <FlatList
-                numColumns ={2}
                 data={items}
                 keyExtractor={(item, index) => index.toString()}
                 renderItem={({ item }) =>
                     <View key={item.Id}>
-                      <TouchableOpacity onPress={() => navigation.navigate("EditarContatosEmergencia", item)} onLongPress={() => Linking.openURL(`tel:${item.Telefone}`)}  style={styles.button} >
-                        <Image source={require('../../../img/sos.png')} style={{marginTop: 10, height: 35, width:50}} />
-                        <Text style={styles.titulo}>{item.Nome.split(" ")[0]}</Text>
-                        <Text style={styles.subtitulo}>{item.Parentesco}</Text>
+                       <View style={styles.viewData}>
+                        <Text style={styles.textData}>{getDate(item.Data)}</Text>
+                      </View>
+                      <TouchableOpacity onPress={() => navigation.navigate("EditarEventos", item)} style={styles.button} >
+                        <View style={styles.viewDirection}>
+                          <Text style={styles.titulo}>{getHours(item.Data)}</Text>
+                          <Text style={styles.subtitulo}>{item.Titulo}</Text>
+                        </View>
                       </TouchableOpacity>
                     </View>
             }
@@ -84,4 +105,4 @@ function ListaContatosEmergencia({ navigation, route }){
     </View>
 }
 
-export default ListaContatosEmergencia;
+export default ListaEventos;

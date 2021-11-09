@@ -1,10 +1,9 @@
 import React, {useState} from "react";
 import {View,TextInput, Text, ScrollView, TouchableOpacity, Alert, Picker} from 'react-native'
-import { cpf } from 'cpf-cnpj-validator'; 
+import { TextInputMask } from 'react-native-masked-text'
 import { Formik } from 'formik'
 
 import ContatosEmergenciaController from "../../../../controller/ContatosEmergenciaController";
-import ContatosEmergencia from "../../../../database/ContatosEmergencia";
 
 import validations from "../../../validations/validations";
 
@@ -75,6 +74,7 @@ function CadastroContatosEmergencia ({navigation, route}){
                 {errors.Parentesco &&
                     <Text style={{ fontSize: 15, color: 'red', marginHorizontal: 30, marginVertical:2 }}>{errors.Parentesco}</Text>
                 }
+                
                 <TextInput 
                     name="Tel"
                     style={styles.input} 
