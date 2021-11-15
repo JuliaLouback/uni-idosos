@@ -11,13 +11,22 @@ function HomeCuidador ({ navigation, route }){
     const [user, setUser] = useState('')
 
     useEffect(() => {
-        asyncStorage.getData("User").then(result => {
-            if(result != null) {
-                setNomeUsuario(result.Nome)
-                setUser(result)
-            }
-        })
-    })
+        let isMounted = true;    
+
+        if (isMounted){
+            const unsubscribe = navigation.addListener('focus', () => {
+
+                asyncStorage.getData("User").then(result => {
+                    if(result != null) {
+                        setNomeUsuario(result.Nome)
+                        setUser(result)
+                    }
+                })
+            })
+
+            return unsubscribe
+        }
+    }, [navigation]);       
 
     return (
             <>

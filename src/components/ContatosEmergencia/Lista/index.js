@@ -1,62 +1,31 @@
 import React, { useState, useEffect } from 'react';
 import { View, FlatList,Text, TouchableOpacity, Image, Linking } from 'react-native';
 import TituloVermelho from '../../TituloVermelho'
-import ButtonQuadrado from '../../Buttons/ButtonQuadrado';
 import styles from './style'
 import ContatosEmergencia from '../../../../database/ContatosEmergencia';
-import db from "../../../../database/SQLiteDatabase";
-import { useIsFocused } from '@react-navigation/native';
+import Idoso from '../../../../database/Idoso';
 
 function ListaContatosEmergencia({ navigation, route }){
 
     const [items, setItems] = useState([]);
-    const [empty, setEmpty] = useState([]);
     const [idoso, setIdoso] = useState('');
-    const isFocused = useIsFocused('');
-    
+ 
     useEffect(() => {
 
-      let isMounted = true;
-      
-      if(isMounted){
+      let isMounted = true;    
 
+      if (isMounted){
         const unsubscribe = navigation.addListener('focus', () => {
-          db.transaction((tx) => {
-            tx.executeSql(
-              "SELECT * FROM Idoso WHERE Cuidador_Cpf="+route.params.Cpf+";",
-              [],
-              (tx, { rows }) => {         
-                if (rows.length > 0) {
-                  setIdoso(rows.item(0))
-                }
-              },
-            );
-          });
+          Idoso.findByUserCuidadorCpf(route.params.Cpf).then(result => {
+            setIdoso(result)
+            ContatosEmergencia.select(route.params.Cpf).then(result => setItems(result))
+          })
+        }); 
 
-          db.transaction((tx) => {
-            tx.executeSql(
-              'SELECT * FROM Contatos_emergencia INNER JOIN Telefone ON Contatos_emergencia.Telefone_Id = Telefone.Id WHERE Idoso_Cpf = (Select Cpf from Idoso WHERE Cuidador_Cpf = ' + route.params.Cpf +')' ,
-              [],
-              (tx, results) => {
-                var temp = [];
-                for (let i = 0; i < results.rows.length; ++i){
-                  temp.push(results.rows.item(i));
-                }
-                  setItems(temp);
-                
-                if (results.rows.length >= 1) {
-                  setEmpty(false);
-                } else {
-                  setEmpty(true)
-                }            
-              } 
-            );
-          });
-        });
+        return unsubscribe; 
       }
-      
-      return () => { isMounted = false }
-    },[])
+
+    }, [navigation]);       
 
     return <View style={styles.container}>
             <TituloVermelho titulo="Contatos de Emergência"></TituloVermelho>

@@ -62,5 +62,33 @@ const remove = (id) => {
   });
 };
 
+const findEvento = (cpf) => {
+  return new Promise((resolve, reject) => {
+    db.transaction((tx) => {
+      tx.executeSql(
+        'SELECT * FROM Eventos WHERE Idoso_Cpf = (Select Cpf from Idoso WHERE Cuidador_Cpf = ' + cpf + ')  ORDER BY Data asc' ,
+        [],
+        
+        (_, { rows }) => {
+       
+          if (rows.length > 0) {
+            
+            var temp = [];
+            for (let i = 0; i < rows.length; ++i){
+              temp.push(rows.item(i));
+            }
 
-export default { create, update, remove };
+            console.info(temp)
+            resolve(temp);
+          }else {
+            reject("Obj not found: brand=" + brand);
+          }
+        } ,
+        (_, error) => reject(error) // erro interno em tx.executeSql 
+        
+      );
+    }); 
+  });
+};
+
+export default { create, update, remove, findEvento };

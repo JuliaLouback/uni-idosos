@@ -67,18 +67,19 @@ const remove = (id) => {
   });
 };
 
-const select = () => {
+const select = (cpf) => {
+
+  console.info(cpf)
   return new Promise((resolve, reject) => {
     db.transaction((tx) => {
-      //comando SQL modificável
       tx.executeSql(
-        "SELECT * FROM Contatos_emergencia ;",
-        //-----------------------
+        'SELECT * FROM Contatos_emergencia INNER JOIN Telefone ON Contatos_emergencia.Telefone_Id = Telefone.Id WHERE Idoso_Cpf = (Select Cpf from Idoso WHERE Cuidador_Cpf = ' + cpf +')',
+        [],//-----------------------
         (_, { rows }) => {
           if (rows.length > 0) {
             var temp = [];
             for (let i = 0; i < rows.length; ++i){
-              temp.push(results.rows.item(i));
+              temp.push(rows.item(i));
             }
             resolve(temp)
           }
