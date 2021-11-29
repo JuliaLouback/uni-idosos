@@ -3,12 +3,12 @@ import Svg, { Path } from 'react-native-svg';
 
 export const Peso = (props) => {
 
-    const { width = 40, height = 40  } = props;
+    const { width = 50, height = 50  } = props;
 
     return (
         <Svg 
-            width="50" 
-            height="50" 
+            width = {width}
+            height= {height} 
             viewBox="0 0 50 50" 
             fill="none" 
             xmlns="http://www.w3.org/2000/svg"

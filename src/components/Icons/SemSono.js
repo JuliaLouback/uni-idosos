@@ -3,12 +3,12 @@ import Svg, { Path } from 'react-native-svg';
 
 export const SemSono = (props) => {
 
-    const { width = 40, height = 40  } = props;
+    const { width = 60, height = 60  } = props;
 
     return (
         <Svg 
-            width="60" 
-            height="60" 
+            width={width} 
+            height={height}
             viewBox="0 0 36 36" 
             fill="none" 
             xmlns="http://www.w3.org/2000/svg"

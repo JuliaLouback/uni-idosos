@@ -19,6 +19,7 @@ import CadastroEventos from './components/Eventos/Cadastro';
 import ListaEventos from './components/Eventos/Lista';
 import EditarEventos from './components/Eventos/Editar';
 import { InformacoesDiarias } from './components/InformacoesDiarias'
+import { Relatorios } from './components/Relatorios';
 
 const Stack = createNativeStackNavigator();
 
