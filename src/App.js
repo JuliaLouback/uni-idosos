@@ -20,6 +20,7 @@ import ListaEventos from './components/Eventos/Lista';
 import EditarEventos from './components/Eventos/Editar';
 import Teste from './components/Zarit/Teste';
 import Resultado from './components/Zarit/Resultado';
+import Mapa from './components/Mapa';
 
 const Stack = createNativeStackNavigator();
 
@@ -387,6 +388,30 @@ function App(){
           component={Resultado}
           options={({ navigation, route }) => ({ 
             title: 'Resultado Zarit',
+            headerStyle: {
+              backgroundColor: '#FB7366',
+            },
+            headerTintColor: '#fff',
+            headerTitleStyle: {
+              fontWeight: 'bold',
+            },
+            headerRight: () => (
+              <View>
+                <TouchableOpacity onPress={() => logout(navigation)}>
+                  <Image
+                    source={require("./img/logout.png")}
+                  />
+                </TouchableOpacity>
+              </View>
+            ),
+            headerLeft: ()=> null, 
+          })}
+        />
+          <Stack.Screen
+          name="Mapa"
+          component={Mapa}
+          options={({ navigation, route }) => ({ 
+            title: 'Mapa',
             headerStyle: {
               backgroundColor: '#FB7366',
             },

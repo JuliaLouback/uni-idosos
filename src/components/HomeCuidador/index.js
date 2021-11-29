@@ -2,6 +2,7 @@ import React, {useState,useEffect} from "react";
 import {View, TouchableOpacity, Text, Image, ScrollView, Alert} from 'react-native'
 import asyncStorage from "../../../services/asyncStorage";
 
+import Mapa from "../Mapa";
 import Titulo from '../Titulo'
 import styles from './style'
 
@@ -62,7 +63,7 @@ function HomeCuidador ({ navigation, route }){
                     </TouchableOpacity>
                 </View>
                 <View style={styles.containerDois}>
-                    <TouchableOpacity onPress={() => navigation.navigate("Teste")} style={styles.btnLocalizacao}>
+                    <TouchableOpacity onPress={() => navigation.navigate("Mapa")} style={styles.btnLocalizacao}>
                         <Image source={require("../../img/localizacao.png")} style={styles.image}></Image>
                         <Text style={styles.text}>Localização</Text>
                     </TouchableOpacity>
