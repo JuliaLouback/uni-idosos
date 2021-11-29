@@ -57,7 +57,7 @@ function HomeCuidador ({ navigation, route }){
                         <Image source={require('../../img/grafico.png')}/>
                         <Text style={styles.txtRelatorios}>Relatórios</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity onPress={() => navigation.navigate("Teste")} style={styles.btnZarit}>
+                    <TouchableOpacity onPress={() => navigation.navigate("Zarit")} style={styles.btnZarit}>
                         <Text style={styles.txtZarit}>ZARIT</Text>
                     </TouchableOpacity>
                 </View>

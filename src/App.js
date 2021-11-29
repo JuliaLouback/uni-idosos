@@ -18,6 +18,8 @@ import EditarContatosEmergencia from './components/ContatosEmergencia/Editar';
 import CadastroEventos from './components/Eventos/Cadastro';
 import ListaEventos from './components/Eventos/Lista';
 import EditarEventos from './components/Eventos/Editar';
+import Teste from './components/Zarit/Teste';
+import Resultado from './components/Zarit/Resultado';
 
 const Stack = createNativeStackNavigator();
 
@@ -339,6 +341,54 @@ function App(){
             title: 'Eventos/Consultas',
             headerStyle: {
               backgroundColor: '#649AFC',
+            },
+            headerTintColor: '#fff',
+            headerTitleStyle: {
+              fontWeight: 'bold',
+            },
+            headerRight: () => (
+              <View>
+                <TouchableOpacity onPress={() => logout(navigation)}>
+                  <Image
+                    source={require("./img/logout.png")}
+                  />
+                </TouchableOpacity>
+              </View>
+            ),
+            headerLeft: ()=> null, 
+          })}
+        />
+          <Stack.Screen
+          name="Zarit"
+          component={Teste}
+          options={({ navigation, route }) => ({ 
+            title: 'Zarit',
+            headerStyle: {
+              backgroundColor: '#FB7366',
+            },
+            headerTintColor: '#fff',
+            headerTitleStyle: {
+              fontWeight: 'bold',
+            },
+            headerRight: () => (
+              <View>
+                <TouchableOpacity onPress={() => logout(navigation)}>
+                  <Image
+                    source={require("./img/logout.png")}
+                  />
+                </TouchableOpacity>
+              </View>
+            ),
+            headerLeft: ()=> null, 
+          })}
+        />
+        <Stack.Screen
+          name="ZaritResultado"
+          component={Resultado}
+          options={({ navigation, route }) => ({ 
+            title: 'Resultado Zarit',
+            headerStyle: {
+              backgroundColor: '#FB7366',
             },
             headerTintColor: '#fff',
             headerTitleStyle: {
