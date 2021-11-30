@@ -4,7 +4,7 @@ import {
     View, 
     Modal, 
     TouchableOpacity, 
-    Picker } from 'react-native';
+    Picker, Alert } from 'react-native';
 
 //styles
 import styles from './style'
@@ -13,6 +13,8 @@ import styles from './style'
 import Slider from '@react-native-community/slider';
 import InfoDiariasController from '../../../../controller/InfoDiariasController'
 import InfoDiarias from '../../../../database/InfoDiarias'
+import asyncStorage from "../../../../services/asyncStorage";
+
 //icons
 import { Copo } from '../../Icons/Copo';
 import { SemSono } from '../../Icons/SemSono';
@@ -28,8 +30,20 @@ import { Alegre } from '../../Icons/Alegre';
 export const ModalInfo = (props) => {
 
     const { abrirModal, fecharModal, marginTop = '112%', tipoBotao, children } = props;
-    
+
     let data = new Date();
+    let year = data.getFullYear();
+    let month = data.getMonth()+1;
+    let dt = data.getDate();
+
+    if (dt < 10) {
+    dt = '0' + dt;
+    }
+    if (month < 10) {
+    month = '0' + month;
+    }
+
+    let dataFinal = year+'-' + month + '-'+dt + 'T00:00:00Z'
 
     const [info, setInfo] = useState({
         humor: '',
@@ -37,7 +51,7 @@ export const ModalInfo = (props) => {
         agua: '',
         sono: '',
         sintomas: '',
-        data: data
+        data: dataFinal
     });
 
     return(
@@ -85,9 +99,9 @@ const Humor = (props) => {
         if(info.humor == ''){
             setInfo({...info, humor: valor})
             fechamodal()
-            alert('Sucesso!')
+            Alert.alert('Sucesso!','Sucesso!')
         } else {
-            alert('Campo já preenchido')
+            Alert.alert('Campo já preenchido','Campo já preenchido')
             fechamodal()
             console.log(info)
         }
@@ -143,9 +157,9 @@ const Sono = (props) => {
         if(info.sono == ''){
             setInfo({...info, sono: valor})
             fechamodal()
-            alert('Sucesso!')
+            Alert.alert('Sucesso!','Sucesso!')
         } else {
-            alert('Campo já preenchido')
+            Alert.alert('Campo já preenchido','Campo já preenchido')
             fechamodal()
             console.log(info)
         }
@@ -197,9 +211,9 @@ const Agua = (props) => {
         if(info.agua == ''){
             setInfo({...info, agua: valor})
             fechamodal()
-            alert('Sucesso!')
+            Alert.alert('Sucesso!','Sucesso!')
         } else {
-            alert('Campo já preenchido')
+            Alert.alert('Campo já preenchido','Campo já preenchido')
             fechamodal()
             console.log(info)
         }
@@ -269,9 +283,9 @@ const Sintomas = (props) => {
         if(info.sintomas == ''){
             setInfo({...info, sintomas: sintomas[selectedValue]})
             fechamodal()
-            alert('Sucesso!')
+            Alert.alert('Sucesso!','Sucesso!')
         } else {
-            alert('Campo já preenchido')
+            Alert.alert('Campo já preenchido','Campo já preenchido')
             fechamodal()
             console.log(info)
         }
@@ -312,9 +326,9 @@ const Peso = (props) => {
         if(info.peso == ''){
             setInfo({...info, peso: valor})
             fechamodal()
-            alert('Sucesso!')
+            Alert.alert('Sucesso!','Sucesso!')
         } else {
-            alert('Campo já preenchido')
+            Alert.alert('Campo já preenchido','Campo já preenchido')
             fechamodal()
             console.log(info)
         }
@@ -365,11 +379,25 @@ const Confirmar = (props) => {
            </View>
            <View style={styles.containerBotaoConfirmar}>
                <TouchableOpacity style={[styles.botaoConfirmar, { marginBottom: 125 }]} onPress={() => {
+                    asyncStorage.getData("User").then(result => {
+                        if(result != null) { 
+                            setInfo({...info, idoso_Cpf: result.Cpf.toString()})
 
-                    InfoDiarias.create(info).then(result => {  
-                        console.info(info)
+                            InfoDiarias.selectData(result.Cpf.toString(), info.data ).then(resultado => {  
+                                if(resultado){
+                                    InfoDiarias.create(info).then(result => {  
+                                        console.info(result)
+                                    })
+                                } else {
+                                    Alert.alert("Informações Cadastradas","Informações já cadastradas, volte amanhã")
+                                }
+                            })
+                        }
                     }), fechamodal()
-
+                    /*InfoDiarias.create(info).then(result => {  
+                        
+                    }), fechamodal()
+                    */
                }}>
                    <Text style={styles.textoBotao}>Confirmar</Text>
                </TouchableOpacity>

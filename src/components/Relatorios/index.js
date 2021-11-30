@@ -1,10 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View } from 'react-native';
 
 //components
 import TituloAmarelo from '../TituloAmarelo'
 import { ButtonInfo } from '../Buttons/ButtonInfo'
 import { ModalRelatorio } from './ModalRelatorio'
+
+import InfoDiarias from '../../../database/InfoDiarias'
+import Idoso from '../../../database/Idoso'
 
 //styles
 import styles from './style'
@@ -29,6 +32,23 @@ export default function Relatorios({ navigation, route }){
     const modalSono = () => { setModalVisible(true), setTipoModal('sono'); }
     const modalHumor = () => { setModalVisible(true), setTipoModal('humor'); }
     const modalAgua = () => { setModalVisible(true), setTipoModal('agua'); }
+
+    useEffect(() => {
+
+        let isMounted = true;    
+  
+        if (isMounted){
+          const unsubscribe = navigation.addListener('focus', () => {
+            Idoso.findByUserCuidadorCpf(route.params.Cpf).then(result => {
+              InfoDiarias.select(route.params.Cpf).then(result => setInfoDiarias(result))
+              console.info("to aqui")
+            })
+          }); 
+  
+          return unsubscribe; 
+        }
+  
+      }, [navigation]);   
 
     return(
         <View style={styles.container}>

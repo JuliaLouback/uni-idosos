@@ -53,7 +53,7 @@ function HomeIdoso ({ navigation, route }){
                     </TouchableOpacity>
                 </View>
                 <View style={styles.changeDirection}>
-                    <TouchableOpacity onPress={() => navigation.navigate("Relatorios")} style={styles.btnRelatorios}>
+                    <TouchableOpacity onPress={() => navigation.navigate("Relatorios", {Cpf: user.Cuidador_Cpf})} style={styles.btnRelatorios}>
                         <Image source={require('../../img/grafico.png')}/>
                         <Text style={styles.txtRelatorios}>Relatórios</Text>
                     </TouchableOpacity>
