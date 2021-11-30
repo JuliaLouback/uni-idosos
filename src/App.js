@@ -22,6 +22,8 @@ import Teste from './components/Zarit/Teste';
 import Resultado from './components/Zarit/Resultado';
 import Mapa from './components/Mapa';
 import MapaCuidador from './components/MapaCuidador';
+import { InformacoesDiarias } from './components/InformacoesDiarias'
+import { Relatorios } from './components/Relatorios';
 
 
 const Stack = createNativeStackNavigator();
