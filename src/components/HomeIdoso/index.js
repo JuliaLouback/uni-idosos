@@ -53,11 +53,11 @@ function HomeIdoso ({ navigation, route }){
                     </TouchableOpacity>
                 </View>
                 <View style={styles.changeDirection}>
-                    <TouchableOpacity onPress={() => navigation.navigate("Teste")} style={styles.btnRelatorios}>
+                    <TouchableOpacity onPress={() => navigation.navigate("Relatorios")} style={styles.btnRelatorios}>
                         <Image source={require('../../img/grafico.png')}/>
                         <Text style={styles.txtRelatorios}>Relatórios</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity onPress={() => navigation.navigate("Teste")} style={styles.btnZarit}>
+                    <TouchableOpacity onPress={() => navigation.navigate("InfoDiarias")} style={styles.btnZarit}>
                         <Image source={require('../../img/alarme.png')}/>
                         <Text style={styles.txtRelatorios}>Informações</Text>
                     </TouchableOpacity>

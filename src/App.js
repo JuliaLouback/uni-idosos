@@ -459,6 +459,54 @@ function App(){
             headerLeft: ()=> null, 
           })}
         />
+        <Stack.Screen
+          name="InfoDiarias"
+          component={InformacoesDiarias}
+          options={({ navigation, route }) => ({ 
+            title: 'Informações Diárias',
+            headerStyle: {
+              backgroundColor: '#FFB348',
+            },
+            headerTintColor: '#fff',
+            headerTitleStyle: {
+              fontWeight: 'bold',
+            },
+            headerRight: () => (
+              <View>
+                <TouchableOpacity onPress={() => logout(navigation)}>
+                  <Image
+                    source={require("./img/logout.png")}
+                  />
+                </TouchableOpacity>
+              </View>
+            ),
+            headerLeft: ()=> null, 
+          })}
+        />
+        <Stack.Screen
+          name="Relatorios"
+          component={Relatorios}
+          options={({ navigation, route }) => ({ 
+            title: 'Relatórios',
+            headerStyle: {
+              backgroundColor: '#FFB348',
+            },
+            headerTintColor: '#fff',
+            headerTitleStyle: {
+              fontWeight: 'bold',
+            },
+            headerRight: () => (
+              <View>
+                <TouchableOpacity onPress={() => logout(navigation)}>
+                  <Image
+                    source={require("./img/logout.png")}
+                  />
+                </TouchableOpacity>
+              </View>
+            ),
+            headerLeft: ()=> null, 
+          })}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   )
