@@ -22,6 +22,9 @@ import Teste from './components/Zarit/Teste';
 import Resultado from './components/Zarit/Resultado';
 import Mapa from './components/Mapa';
 import MapaCuidador from './components/MapaCuidador';
+import InformacoesDiarias from './components/InformacoesDiarias';
+import Relatorios from './components/Relatorios';
+
 
 
 const Stack = createNativeStackNavigator();
@@ -440,6 +443,54 @@ function App(){
             title: 'Mapa',
             headerStyle: {
               backgroundColor: '#FB7366',
+            },
+            headerTintColor: '#fff',
+            headerTitleStyle: {
+              fontWeight: 'bold',
+            },
+            headerRight: () => (
+              <View>
+                <TouchableOpacity onPress={() => logout(navigation)}>
+                  <Image
+                    source={require("./img/logout.png")}
+                  />
+                </TouchableOpacity>
+              </View>
+            ),
+            headerLeft: ()=> null, 
+          })}
+        />
+         <Stack.Screen
+          name="InfoDiarias"
+          component={InformacoesDiarias}
+          options={({ navigation, route }) => ({ 
+            title: 'Informações Diárias',
+            headerStyle: {
+              backgroundColor: '#FFB348',
+            },
+            headerTintColor: '#fff',
+            headerTitleStyle: {
+              fontWeight: 'bold',
+            },
+            headerRight: () => (
+              <View>
+                <TouchableOpacity onPress={() => logout(navigation)}>
+                  <Image
+                    source={require("./img/logout.png")}
+                  />
+                </TouchableOpacity>
+              </View>
+            ),
+            headerLeft: ()=> null, 
+          })}
+        />
+        <Stack.Screen
+          name="Relatorios"
+          component={Relatorios}
+          options={({ navigation, route }) => ({ 
+            title: 'Relatórios',
+            headerStyle: {
+              backgroundColor: '#FFB348',
             },
             headerTintColor: '#fff',
             headerTitleStyle: {
