@@ -5,13 +5,12 @@ import Geolocation from '@react-native-community/geolocation';
 import Geocoder from 'react-native-geocoding';
 import Titulo from '../Titulo'
 import styles from './style'
-import Idoso from '../../../database/Idoso';
 import asyncStorage from "../../../services/asyncStorage";
 
-function Mapa ({navigation, route}){ 
+function MapaCuidador ({navigation, route}){ 
 
     const [enderecoAtual, setEnderecoAtual] = useState('')
-    const [user, setUser] = useState('');
+    const [enderecoIdoso, setEnderecoIdoso] = useState('');
 
     const callLocation = () => {
         if(Platform.OS === 'ios') {
@@ -41,7 +40,7 @@ function Mapa ({navigation, route}){
     const getLocation = () => {
         Geolocation.getCurrentPosition(
           (position) => {
-            getAddressFromCoordinates(position.coords.latitude,position.coords.longitude)
+            getAddressFromCoordinates(position.coords.latitude,position.coords.longitude )
           },
           (error) => alert(error.message),
           { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
@@ -53,7 +52,8 @@ function Mapa ({navigation, route}){
 
     function getAddressFromCoordinates(lat, long) {
         return new Promise((resolve) => {
-          const url = `https://reverse.geocoder.ls.hereapi.com/6.2/reversegeocode.json?prox=${lat}%2C${long}%2C250&mode=retrieveAddresses&maxresults=1&gen=9&apiKey=p2UvqqDjlWE54e94ZAgPzyTC5DddCkm7BhdyduUbt_0`
+          
+          const url = `https://reverse.geocoder.ls.hereapi.com/6.2/reversegeocode.json?prox=${lat}%2C${long}%2C250&mode=retrieveAddresses&maxresults=1&gen=9&apiKey=41wwy4DdiarZQe0HRkVzVgMgvf0GeLH2z4Y-g3YhCSc`
           fetch(url)
             .then(res => res.json())
             .then((resJson) => {
@@ -66,14 +66,8 @@ function Mapa ({navigation, route}){
                     && resJson.Response.View[0].Result[0]) 
                 {
                 setEnderecoAtual(resJson.Response.View[0].Result[0].Location.Address.Label)
-                let obj = {
-                  endereco: resJson.Response.View[0].Result[0].Location.Address.Label
-                }
-                asyncStorage.storeData("LocalizacaoIdoso", JSON.stringify(obj))
-
                 resolve(resJson.Response.View[0].Result[0].Location.Address.Label)
               } else {
-
                 resolve()
               }
             })
@@ -85,8 +79,7 @@ function Mapa ({navigation, route}){
       }
 
     function abrirMapa() {
-      let endereco = "R. "+ user.Rua + ", " + user.Numero +" - "+ user.Bairro +", "+ user.Cidade +" - "+ user.Estado + ", " + user.Cep; 
-      openMap({ start: enderecoAtual, end: endereco })
+      openMap({ start: enderecoAtual, end: enderecoIdoso });
     }
 
     useEffect(() => {
@@ -96,9 +89,8 @@ function Mapa ({navigation, route}){
         if (isMounted){
             const unsubscribe = navigation.addListener('focus', () => {
                 callLocation()
-                Idoso.findByUserCuidadorCpf(route.params.Cpf).then(result => {
-                  console.info(result)
-                  setUser(result)
+                asyncStorage.getData("LocalizacaoIdoso").then(result => {
+                  setEnderecoIdoso(result.endereco)
                 })
             })
 
@@ -112,11 +104,11 @@ function Mapa ({navigation, route}){
       <View style={styles.containerDois}>
         <TouchableOpacity onPress={abrirMapa} style={styles.btnLocalizacao}>
             <Image source={require("../../img/localizacao.png")} style={styles.image}></Image>
-            <Text style={styles.text}>Voltar para Casa</Text>
+            <Text style={styles.text}>Localizar Idoso</Text>
         </TouchableOpacity>
       </View>
       </>
     )
 }
 
-export default Mapa
+export default MapaCuidador

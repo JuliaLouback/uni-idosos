@@ -5,7 +5,7 @@ const storeData = async (key, value) => {
   try {
     await AsyncStorage.setItem(key, value)
   } catch (e) {
-    // saving error
+    console.info("deu ruimmm")
   }
 }
 
@@ -20,6 +20,7 @@ const removeData = async (key) => {
 
 const getData = async (value) => {
     try {
+   
         const jsonValue = await AsyncStorage.getItem(value)
         return jsonValue != null ? JSON.parse(jsonValue) : null;
     } catch(e) {

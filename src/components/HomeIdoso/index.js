@@ -63,7 +63,7 @@ function HomeIdoso ({ navigation, route }){
                     </TouchableOpacity>
                 </View>
                 <View style={styles.containerDois}>
-                    <TouchableOpacity onPress={() => navigation.navigate("Teste")} style={styles.btnLocalizacao}>
+                    <TouchableOpacity onPress={() => navigation.navigate("Mapa", {Cpf: user.Cuidador_Cpf})} style={styles.btnLocalizacao}>
                         <Image source={require("../../img/localizacao.png")} style={styles.image}></Image>
                         <Text style={styles.text}>Localização</Text>
                     </TouchableOpacity>

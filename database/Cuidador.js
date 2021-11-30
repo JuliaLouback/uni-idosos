@@ -111,7 +111,7 @@ const findByUserCpf = (cpf) => {
     db.transaction((tx) => {
       //comando SQL modificável
       tx.executeSql(
-        "SELECT * FROM Cuidador WHERE Cpf=?;",
+        "SELECT * FROM Cuidador INNER JOIN Endereco on Cuidador.Endereco_Id = Endereco.Id WHERE Cpf=?;",
         [cpf],
         //-----------------------
         (_, { rows }) => {

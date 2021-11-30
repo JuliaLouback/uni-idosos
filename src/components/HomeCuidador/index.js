@@ -63,7 +63,7 @@ function HomeCuidador ({ navigation, route }){
                     </TouchableOpacity>
                 </View>
                 <View style={styles.containerDois}>
-                    <TouchableOpacity onPress={() => navigation.navigate("Mapa")} style={styles.btnLocalizacao}>
+                    <TouchableOpacity onPress={() => navigation.navigate("MapaCuidador", {Cpf: user.Cpf})} style={styles.btnLocalizacao}>
                         <Image source={require("../../img/localizacao.png")} style={styles.image}></Image>
                         <Text style={styles.text}>Localização</Text>
                     </TouchableOpacity>
